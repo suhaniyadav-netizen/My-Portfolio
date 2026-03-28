@@ -9,25 +9,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
-    <div id="three-bg"></div>
-    <header class="top-bar">
-        <div class="left-header">
+    <header class="floating-nav">
+        <div class="nav-shell">
             <a href="#home" class="logo">SY</a>
+
+            <nav class="right-nav" id="navbar">
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+
+                <button id="theme-toggle" aria-label="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
         </div>
-
-        <nav class="right-nav" id="navbar">
-            <a href="#skills" class="nav-link">Skills</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#contact" class="nav-link">Contact</a>
-
-            <button id="theme-toggle" aria-label="Toggle Theme">
-                <i class="fas fa-moon"></i>
-            </button>
-        </nav>
     </header>
 
     <main id="home">
-        <section id="about" class="fade-in-section">
+        <section id="about" class="fade-in-section first-section">
             <div class="about-flex">
                 <div class="profile-hero">
                     <div class="profile-ring">
@@ -203,13 +202,13 @@
                 <p class="section-kicker">Hackathons</p>
                 <h2>Captured through builds, pressure, and competitive learning.</h2>
                 <p class="section-subtitle">
-                Participated in hackathons where I worked on real-world ideas, collaborated in teams,
-                and improved my project-building approach.
+                    Participated in hackathons where I worked on real-world ideas, collaborated in teams,
+                    and improved my project-building approach.
                 </p>
             </div>
 
             <div class="poster-wall">
-            <article class="poster-card featured-poster">
+                <article class="poster-card featured-poster">
                     <div class="pin"></div>
                     <div class="poster-image-wrap">
                         <img src="https://www.hackkrmu.in/static/media/logo.d76f47f9810287da119a.png" alt="HACK KRMU 5.0 Logo" class="poster-image">
@@ -295,7 +294,9 @@
                 <p class="footer-text">
                     Open to internships, collaboration, and meaningful tech opportunities.
                 </p>
+            </div>
 
+            <div class="footer-right">
                 <div class="contact-links">
                     <a href="mailto:suhani.yadavmicro@gmail.com" aria-label="Email">
                         <i class="fas fa-envelope"></i>
@@ -307,10 +308,8 @@
                         <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
-            </div>
 
-            <div class="footer-right">
-                <p>© <span id="year"></span> Suhani Yadav</p>
+                <p class="footer-copy">© <span id="year"></span> Suhani Yadav</p>
             </div>
         </div>
     </footer>
@@ -319,8 +318,6 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <script src="script.js"></script>
 </body>
 </html>
