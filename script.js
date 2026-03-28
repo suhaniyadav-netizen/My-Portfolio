@@ -142,98 +142,103 @@ if (backToTopBtn) {
 
 document.addEventListener("DOMContentLoaded", () => {
     typeEffect();
-    initSoftWaveMesh();
+    initMinimalWaveBackground();
 });
 
-/* ---------------- SOFT WAVE MESH BACKGROUND ---------------- */
+/* ---------------- MINIMAL PROFESSIONAL WAVE BACKGROUND ---------------- */
 
-function initSoftWaveMesh() {
+function initMinimalWaveBackground() {
     const container = document.getElementById("three-bg");
     if (!container || typeof THREE === "undefined") return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    let scene, camera, renderer;
-    let mesh, material, geometry;
-    let animationId = null;
+    let scene, camera, renderer, mesh, geometry, material;
+    let basePositions;
     let mouseX = 0;
     let mouseY = 0;
+    let animationFrame;
 
-    function getWaveSettings() {
+    function getTheme() {
         const isDark = document.body.classList.contains("dark-mode");
         return {
-            color: isDark ? 0x86c5fc : 0x5aaef5,
-            opacity: isDark ? 0.18 : 0.12,
-            emissive: isDark ? 0x2f6ca3 : 0xbfe3ff,
-            background: 0x000000
+            color: isDark ? 0x7fc4ff : 0x7bbcf3,
+            opacity: isDark ? 0.09 : 0.055
         };
     }
 
-    scene = new THREE.Scene();
+    function buildScene() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
 
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
-    camera.position.z = 42;
-    camera.position.y = 2;
+        scene = new THREE.Scene();
 
-    renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true
-    });
+        camera = new THREE.OrthographicCamera(
+            width / -2,
+            width / 2,
+            height / 2,
+            height / -2,
+            1,
+            1000
+        );
+        camera.position.z = 10;
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+        renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true
+        });
 
-    const segmentsX = window.innerWidth < 768 ? 40 : 70;
-    const segmentsY = window.innerWidth < 768 ? 24 : 42;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        renderer.setSize(width, height);
 
-    geometry = new THREE.PlaneGeometry(90, 60, segmentsX, segmentsY);
+        container.innerHTML = "";
+        container.appendChild(renderer.domElement);
 
-    const settings = getWaveSettings();
+        const segX = width < 768 ? 26 : 42;
+        const segY = height < 768 ? 18 : 28;
 
-    material = new THREE.MeshBasicMaterial({
-        color: settings.color,
-        wireframe: true,
-        transparent: true,
-        opacity: settings.opacity
-    });
+        geometry = new THREE.PlaneGeometry(width * 1.2, height * 1.2, segX, segY);
 
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.x = -1.08;
-    mesh.rotation.z = -0.18;
-    mesh.position.y = -7;
-    mesh.position.z = -8;
+        const theme = getTheme();
 
-    scene.add(mesh);
+        material = new THREE.MeshBasicMaterial({
+            color: theme.color,
+            wireframe: true,
+            transparent: true,
+            opacity: theme.opacity
+        });
 
-    const basePositions = geometry.attributes.position.array.slice();
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.rotation.z = -0.04;
+        mesh.position.set(0, 0, 0);
+
+        scene.add(mesh);
+
+        basePositions = geometry.attributes.position.array.slice();
+    }
 
     function animate(time) {
         const positions = geometry.attributes.position.array;
-        const t = time * 0.00045;
+        const t = time * 0.00022;
 
         for (let i = 0; i < positions.length; i += 3) {
             const x = basePositions[i];
             const y = basePositions[i + 1];
 
             positions[i + 2] =
-                Math.sin(x * 0.22 + t * 2.2) * 0.9 +
-                Math.cos(y * 0.32 + t * 1.7) * 0.7;
+                Math.sin(x * 0.008 + t * 1.4) * 4 +
+                Math.cos(y * 0.010 + t * 1.1) * 3;
         }
 
         geometry.attributes.position.needsUpdate = true;
 
-        mesh.rotation.z += (mouseX * 0.08 - mesh.rotation.z) * 0.02;
-        mesh.rotation.x += ((-1.08 + mouseY * 0.04) - mesh.rotation.x) * 0.02;
+        mesh.rotation.z += ((mouseX * 0.015) - mesh.rotation.z) * 0.015;
+        mesh.position.x += (mouseX * 4 - mesh.position.x) * 0.01;
+        mesh.position.y += (-mouseY * 3 - mesh.position.y) * 0.01;
 
         renderer.render(scene, camera);
-        animationId = requestAnimationFrame(animate);
+        animationFrame = requestAnimationFrame(animate);
     }
 
     function handleMouseMove(e) {
@@ -242,21 +247,25 @@ function initSoftWaveMesh() {
     }
 
     function handleResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        if (animationFrame) cancelAnimationFrame(animationFrame);
+        buildScene();
+        updateWaveTheme();
+        animate(0);
     }
 
     function updateWaveTheme() {
-        const newSettings = getWaveSettings();
-        material.color.set(newSettings.color);
-        material.opacity = newSettings.opacity;
+        if (!material) return;
+        const theme = getTheme();
+        material.color.set(theme.color);
+        material.opacity = theme.opacity;
     }
 
     window.updateWaveTheme = updateWaveTheme;
 
+    buildScene();
+    updateWaveTheme();
+    animate(0);
+
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", handleResize);
-
-    animate(0);
 }
