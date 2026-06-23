@@ -16,14 +16,10 @@
     inset: 0;
 
     z-index: -1;
+
+    background: red;
+
     pointer-events: none;
-
-    background-image: url("./assets/topography.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-
-    opacity: 0.12;
 }
 
 /* ambient glow */
