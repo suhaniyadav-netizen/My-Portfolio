@@ -11,18 +11,18 @@
     --max-width: 1150px;
 }
 
-.topo-bg {
+.topography-bg {
     position: fixed;
     inset: 0;
 
     z-index: -1;
+    pointer-events: none;
 
     background-image: url("./assets/topography.svg");
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
+    background-repeat: repeat;
+    background-size: 700px;
 
-    pointer-events: none;
+    opacity: 0.035;
 }
 
 /* ambient glow */
@@ -143,30 +143,6 @@ body.dark-mode .floating-nav {
     background: rgba(15, 23, 42, 0.92);
 }
 
-body.dark-mode .topo-bg {
-    opacity: 0.35;
-}
-
-body.dark-mode .topo-bg::before {
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(0, 119, 255, 0.22),
-            transparent 35%
-        ),
-
-        radial-gradient(
-            circle at 75% 70%,
-            rgba(0, 119, 255, 0.18),
-            transparent 40%
-        ),
-
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(0, 119, 255, 0.10),
-            transparent 50%
-        );
-}
 
 .nav-shell {
     width: min(var(--max-width), 92%);
@@ -818,4 +794,9 @@ footer {
         flex-direction: column;
         align-items: flex-start;
     }
+}
+
+body > *:not(.topography-bg) {
+    position: relative;
+    z-index: 1;
 }
