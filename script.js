@@ -269,3 +269,95 @@ function initMinimalWaveBackground() {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", handleResize);
 }
+
+function createGithubDNA() {
+    const canvas = document.getElementById("dna-bg");
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    const seed = "suhaniyadav-netizen";
+
+    let mouseX = -9999;
+    let mouseY = -9999;
+
+    document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function hash(str) {
+        let h = 0;
+
+        for (let i = 0; i < str.length; i++) {
+            h = (h << 5) - h + str.charCodeAt(i);
+            h |= 0;
+        }
+
+        return Math.abs(h);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const isDark =
+            document.body.classList.contains("dark-mode");
+
+        const cols = Math.ceil(canvas.width / 40);
+        const rows = Math.ceil(canvas.height / 40);
+
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+
+                const value =
+                    hash(seed + x + "-" + y) % 100;
+
+                if (value < 22) {
+
+                    const px = x * 40;
+                    const py = y * 40;
+
+                    const dx = mouseX - px;
+                    const dy = mouseY - py;
+
+                    const dist = Math.sqrt(
+                        dx * dx + dy * dy
+                    );
+
+                    let alpha = isDark ? 0.05 : 0.03;
+
+                    if (dist < 120) {
+                        alpha +=
+                            (120 - dist) / 120 * 0.18;
+                    }
+
+                    ctx.fillStyle = isDark
+                        ? `rgba(134,197,252,${alpha})`
+                        : `rgba(90,174,245,${alpha})`;
+
+                    ctx.fillRect(
+                        px,
+                        py,
+                        10,
+                        10
+                    );
+                }
+            }
+        }
+
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+}
+
+createGithubDNA();
