@@ -11,14 +11,47 @@
     --max-width: 1150px;
 }
 
-#dna-bg {
+.topo-bg {
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
 
     z-index: -1;
     pointer-events: none;
+
+    background-image: url("./assets/topography.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0.12;
+}
+
+/* ambient glow */
+
+.topo-bg::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(134, 197, 252, 0.12),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 75% 70%,
+            rgba(134, 197, 252, 0.08),
+            transparent 40%
+        ),
+
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(134, 197, 252, 0.05),
+            transparent 50%
+        );
 }
 
 body.dark-mode {
@@ -109,6 +142,31 @@ section {
 
 body.dark-mode .floating-nav {
     background: rgba(15, 23, 42, 0.92);
+}
+
+body.dark-mode .topo-bg {
+    opacity: 0.35;
+}
+
+body.dark-mode .topo-bg::before {
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0, 119, 255, 0.22),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 75% 70%,
+            rgba(0, 119, 255, 0.18),
+            transparent 40%
+        ),
+
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(0, 119, 255, 0.10),
+            transparent 50%
+        );
 }
 
 .nav-shell {
