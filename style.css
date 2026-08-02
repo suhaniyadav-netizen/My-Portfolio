@@ -892,124 +892,167 @@ body.dark-mode .badge-live {
 }
 
 /* ---------- 11. Hackathons (Compact Bento Box) ---------- */
-.poster-wall {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 1.8rem;
-}
-
-/* On Desktop, make the first card span 2 columns so it perfectly fits 5 items in 2 rows */
-@media (min-width: 860px) {
-  .poster-wall {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .poster-card-wrapper:first-child {
-    grid-column: span 2;
-  }
-}
-
-.poster-card {
+/* ---------- 11. Hackathons (Interactive Index) ---------- */
+.interactive-index {
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Splits screen: list on left, image on right */
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2.5rem;
+  min-height: 380px; 
+}
+
+.index-list {
   display: flex;
-  flex-direction: row; /* Horizontal layout drastically reduces height */
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.index-item {
+  border-bottom: 1px solid var(--border);
+  cursor: crosshair;
+}
+
+.index-label {
+  display: flex;
   align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 0;
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease), padding-left var(--dur) var(--ease);
+}
+
+.index-item:hover .index-label {
+  color: var(--text);
+  padding-left: 1rem; /* Indents text slightly on hover */
+}
+
+.index-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  white-space: nowrap;
+}
+
+/* The dotted connecting line */
+.index-line {
+  flex-grow: 1;
+  height: 1px;
+  background: repeating-linear-gradient(to right, var(--border-strong) 0, var(--border-strong) 2px, transparent 2px, transparent 6px);
+  opacity: 0.3;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.index-item:hover .index-line {
+  opacity: 0.8;
+}
+
+.index-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Right Side Preview Area */
+.index-preview {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(50% - 1.5rem);
   height: 100%;
-  padding: 1.2rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  transform: translateY(15px);
+  display: flex;
+  justify-content: center;
+}
+
+/* Pure CSS Magic: Show preview on hover */
+.index-item:hover .index-preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  z-index: 10;
+}
+
+/* Keep the first item visible by default when mouse is off the list */
+.index-list:not(:hover) .index-item:first-child .index-preview {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  z-index: 5;
+}
+.index-list:not(:hover) .index-item:first-child .index-label {
+  color: var(--text);
+}
+
+/* Preview Card Styling */
+.preview-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 2.5rem 1.5rem;
   border-radius: var(--radius-lg);
   background-color: var(--surface);
-  color: var(--text);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
-  overflow: hidden;
+  box-shadow: var(--shadow-hover);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.poster-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(var(--accent-rgb), 0.45);
-  box-shadow: var(--shadow-hover), var(--glow-hover);
+.preview-card.featured-poster {
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+  border-color: rgba(var(--accent-rgb), 0.36);
 }
 
-.featured-poster {
-  background: linear-gradient(135deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.08) 100%);
-  border-color: rgba(var(--accent-rgb), 0.25);
-}
-
-.pin {
-  display: none; /* Hide pin to keep things sleek and save space */
-}
-
-.poster-image-wrap {
-  width: 58px;
-  height: 58px;
-  margin-right: 1.1rem;
-  border-radius: 12px;
+.index-preview .poster-image-wrap {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.25rem;
+  border-radius: 20px;
   background-color: var(--surface-raised);
   border: 1px solid var(--border-strong);
   display: grid;
   place-items: center;
-  flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
-body.dark-mode .poster-image-wrap {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+body.dark-mode .index-preview .poster-image-wrap {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.poster-image {
-  width: 60%;
-  height: 60%;
+.index-preview .poster-image {
+  width: 55%;
+  height: 55%;
   object-fit: contain;
 }
 
-.poster-content {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.poster-date {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.15rem;
-}
-
-.poster-card h3 {
-  font-size: 0.95rem;
-  margin-bottom: 0.1rem;
-  line-height: 1.2;
-}
-
-.poster-highlight {
-  font-size: 0.75rem;
+.index-preview .poster-highlight {
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--accent-strong);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.success-text {
+.index-preview .success-text {
   color: #1f9d6b;
 }
 
-body.dark-mode .success-text {
+body.dark-mode .index-preview .success-text {
   color: #4fd39c;
 }
 
-.poster-desc {
+.index-preview .poster-desc {
   color: var(--text-muted);
-  font-size: 0.75rem; 
-  line-height: 1.45;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Truncates long text to save space */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.8rem;
+  line-height: 1.55;
 }
 
 /* ---------- 12. Certifications, fun fact & quote ---------- */
