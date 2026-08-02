@@ -61,8 +61,10 @@
 </head>
 
 <body>
-  <!-- Pure CSS ambient background layer -->
-  <div class="ambient-bg" aria-hidden="true"></div>
+  <!-- Premium ambient CSS background wrapper -->
+  <div class="ambient-bg-wrapper" aria-hidden="true">
+    <div class="ambient-bg"></div>
+  </div>
 
   <a class="skip-link" href="#home">Skip to content</a>
 
@@ -70,7 +72,7 @@
     <div class="nav-shell">
       <a href="#home" class="logo" aria-label="Suhani Yadav — home">SY</a>
 
-      <nav class="right-nav" id="navbar" aria-label="Primary">
+      <nav class="right-nav" id="navbar" aria-label="Primary Navigation">
         <a href="#about" class="nav-link">About</a>
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#projects" class="nav-link">Projects</a>
@@ -99,7 +101,7 @@
           <h1 class="name">Suhani Yadav</h1>
 
           <p class="typing-container">
-            <span class="typewriter" id="roles" aria-live="polite"></span><span class="cursor"
+            <span class="typewriter" id="roles" aria-live="polite" data-phrases='["Building secure software", "Exploring cybersecurity", "Learning something new every day", "Open Source Contributor"]'></span><span class="cursor"
               aria-hidden="true">|</span>
           </p>
 
@@ -109,8 +111,7 @@
 
           <ul class="hero-meta">
             <li><span aria-hidden="true">📍</span> Gurgaon, India</li>
-            <li><span aria-hidden="true">💼</span> Open to Opportunities</li>
-            <li><span aria-hidden="true">🎓</span> B.Tech CSE</li>
+            <li><span aria-hidden="true">🕒</span> <span id="live-time">Live IST Time</span></li>
           </ul>
 
           <div class="hero-actions">
@@ -268,34 +269,6 @@
             </a>
           </div>
         </article>
-
-        <article class="project-card card">
-          <div class="project-top">
-            <h3>Portfolio</h3>
-            <span class="badge badge-maintained">Maintained</span>
-          </div>
-          <p class="project-desc">
-            This site: a hand written portfolio with no framework and no build step — theming, an
-            accessible floating navigation, scroll reveals, and a fully responsive layout in plain
-            HTML, CSS, and JavaScript.
-          </p>
-          <ul class="tech-stack">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>Accessibility</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://suhaniyadavv.netlify.app/" target="_blank" rel="noopener noreferrer"
-              class="btn btn-accent">
-              Live Demo <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-            <a href="https://github.com/suhaniyadav-netizen" target="_blank" rel="noopener noreferrer"
-              class="btn btn-secondary">
-              GitHub <i class="fab fa-github" aria-hidden="true"></i>
-            </a>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -419,109 +392,128 @@
         </p>
       </div>
 
-      <div class="poster-wall">
-        <article class="poster-card featured-poster">
-          <span class="pin" aria-hidden="true"></span>
-          <div class="poster-image-wrap">
-            <img src="https://www.hackkrmu.in/static/media/logo.d76f47f9810287da119a.png" alt="HACK KRMU 5.0 logo"
-              class="poster-image" loading="lazy" />
-          </div>
-          <div class="poster-content">
-            <span class="poster-date">Feb 2026</span>
-            <h3>HACK KRMU 5.0</h3>
-            <p class="poster-highlight">Built Sentinel</p>
-            <p class="poster-desc">56-hour hackathon focused on building an early outbreak warning dashboard.</p>
-          </div>
-        </article>
+      <div class="poster-wall hackathon-grid">
+        <div class="poster-card-wrapper">
+          <article class="poster-card featured-poster">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="poster-image-wrap">
+              <img src="https://www.hackkrmu.in/static/media/logo.d76f47f9810287da119a.png" alt="HACK KRMU 5.0 logo"
+                class="poster-image" loading="lazy" />
+            </div>
+            <div class="poster-content">
+              <span class="poster-date">Feb 2026</span>
+              <h3>HACK KRMU 5.0</h3>
+              <p class="poster-highlight">Built Sentinel</p>
+              <p class="poster-desc">56-hour hackathon focused on building an early outbreak warning dashboard.</p>
+            </div>
+          </article>
+        </div>
 
-        <article class="poster-card">
-          <span class="pin" aria-hidden="true"></span>
-          <div class="poster-image-wrap">
-            <img src="https://aarambhathon.netlify.app/assets/arambh-ywTRIav8.png" alt="Aarambhathon logo"
-              class="poster-image" loading="lazy" />
-          </div>
-          <div class="poster-content">
-            <span class="poster-date">Nov 2025</span>
-            <h3>Aarambhathon</h3>
-            <p class="poster-highlight success-text">4th out of 100 Teams</p>
-            <p class="poster-desc">Secured a top finish with a strong production-oriented solution.</p>
-          </div>
-        </article>
+        <div class="poster-card-wrapper">
+          <article class="poster-card">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="poster-image-wrap">
+              <img src="https://aarambhathon.netlify.app/assets/arambh-ywTRIav8.png" alt="Aarambhathon logo"
+                class="poster-image" loading="lazy" />
+            </div>
+            <div class="poster-content">
+              <span class="poster-date">Nov 2025</span>
+              <h3>Aarambhathon</h3>
+              <p class="poster-highlight success-text">4th out of 100 Teams</p>
+              <p class="poster-desc">Secured a top finish with a strong production-oriented solution.</p>
+            </div>
+          </article>
+        </div>
 
-        <article class="poster-card">
-          <span class="pin" aria-hidden="true"></span>
-          <div class="poster-image-wrap">
-            <img
-              src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-68daa29b0a57a_logo_1.png?d=200x200"
-              alt="MUJ HackX 3.0 logo" class="poster-image" loading="lazy" />
-          </div>
-          <div class="poster-content">
-            <span class="poster-date">Nov 2025</span>
-            <h3>MUJ HackX 3.0</h3>
-            <p class="poster-highlight success-text">Top 25 Teams</p>
-            <p class="poster-desc">Advanced through multiple competitive evaluation rounds.</p>
-          </div>
-        </article>
+        <div class="poster-card-wrapper">
+          <article class="poster-card">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="poster-image-wrap">
+              <img
+                src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-68daa29b0a57a_logo_1.png?d=200x200"
+                alt="MUJ HackX 3.0 logo" class="poster-image" loading="lazy" />
+            </div>
+            <div class="poster-content">
+              <span class="poster-date">Nov 2025</span>
+              <h3>MUJ HackX 3.0</h3>
+              <p class="poster-highlight success-text">Top 25 Teams</p>
+              <p class="poster-desc">Advanced through multiple competitive evaluation rounds.</p>
+            </div>
+          </article>
+        </div>
 
-        <article class="poster-card">
-          <span class="pin" aria-hidden="true"></span>
-          <div class="poster-image-wrap">
-            <img src="https://www.sih.gov.in/img/favicon-sih.png" alt="Smart India Hackathon logo" class="poster-image"
-              loading="lazy" />
-          </div>
-          <div class="poster-content">
-            <span class="poster-date">Sep 2025</span>
-            <h3>Smart India Hackathon</h3>
-            <p class="poster-highlight success-text">Cleared Internal Round</p>
-            <p class="poster-desc">Progressed in India&rsquo;s largest national-level hackathon.</p>
-          </div>
-        </article>
+        <div class="poster-card-wrapper">
+          <article class="poster-card">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="poster-image-wrap">
+              <img src="https://www.sih.gov.in/img/favicon-sih.png" alt="Smart India Hackathon logo" class="poster-image"
+                loading="lazy" />
+            </div>
+            <div class="poster-content">
+              <span class="poster-date">Sep 2025</span>
+              <h3>Smart India Hackathon</h3>
+              <p class="poster-highlight success-text">Cleared Internal Round</p>
+              <p class="poster-desc">Progressed in India&rsquo;s largest national-level hackathon.</p>
+            </div>
+          </article>
+        </div>
 
-        <article class="poster-card">
-          <span class="pin" aria-hidden="true"></span>
-          <div class="poster-image-wrap">
-            <img
-              src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-69416d35b0bae_instagram_post_-_144.png?d=200x200"
-              alt="Hack4Delhi logo" class="poster-image" loading="lazy" />
-          </div>
-          <div class="poster-content">
-            <span class="poster-date">Jan 2026</span>
-            <h3>Hack4Delhi</h3>
-            <p class="poster-highlight">Civic Tech Participation</p>
-            <p class="poster-desc">Worked on technology-driven ideas for practical civic challenges.</p>
-          </div>
-        </article>
+        <div class="poster-card-wrapper">
+          <article class="poster-card">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="poster-image-wrap">
+              <img
+                src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-69416d35b0bae_instagram_post_-_144.png?d=200x200"
+                alt="Hack4Delhi logo" class="poster-image" loading="lazy" />
+            </div>
+            <div class="poster-content">
+              <span class="poster-date">Jan 2026</span>
+              <h3>Hack4Delhi</h3>
+              <p class="poster-highlight">Civic Tech Participation</p>
+              <p class="poster-desc">Worked on technology-driven ideas for practical civic challenges.</p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="certifications" class="section section-compact reveal" aria-labelledby="certifications-heading">
-      <div class="section-heading section-heading-tight">
+    <section id="certifications" class="section reveal" aria-labelledby="certifications-heading">
+      <div class="section-heading">
         <p class="section-kicker">Certifications</p>
         <h2 id="certifications-heading">Learning tracked and verified.</h2>
       </div>
 
-      <ul class="cert-chips">
-        <li class="cert-chip">
-          <i class="fas fa-certificate" aria-hidden="true"></i>
-          <span class="cert-name">Cybersecurity Internship</span>
-          <span class="cert-issuer">Usha International</span>
-        </li>
-        <li class="cert-chip">
-          <i class="fas fa-certificate" aria-hidden="true"></i>
-          <span class="cert-name">Cybersecurity</span>
-          <span class="cert-issuer">Tutedude</span>
-        </li>
-      </ul>
+      <div class="certificate-gallery">
+        <article class="certificate-card">
+          <a href="./assets/cert-usha.jpg" target="_blank" rel="noopener noreferrer" class="cert-img-link" aria-label="Open Usha International Certificate">
+            <div class="cert-img-placeholder">
+              <img src="./assets/cert-usha-thumb.jpg" alt="Usha International Cybersecurity Certificate" loading="lazy" />
+            </div>
+          </a>
+          <div class="cert-details">
+            <h3 class="cert-title">Cybersecurity Internship</h3>
+            <p class="cert-issuer">Usha International</p>
+          </div>
+        </article>
 
-      <p class="fun-fact">
-        <span aria-hidden="true">✨</span> Fun fact — Ctrl&nbsp;+&nbsp;Z is probably my most-used shortcut.
-      </p>
+        <article class="certificate-card">
+          <a href="./assets/cert-tutedude.jpg" target="_blank" rel="noopener noreferrer" class="cert-img-link" aria-label="Open Tutedude Certificate">
+            <div class="cert-img-placeholder">
+              <img src="./assets/cert-tutedude-thumb.jpg" alt="Tutedude Cybersecurity Certificate" loading="lazy" />
+            </div>
+          </a>
+          <div class="cert-details">
+            <h3 class="cert-title">Cybersecurity</h3>
+            <p class="cert-issuer">Tutedude</p>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <aside class="quote-block reveal" aria-label="Closing quote">
-      <blockquote class="quote">
+    <aside class="editorial-quote-block reveal" aria-label="Editorial Quote">
+      <blockquote>
         <p>&ldquo;Talk is cheap. Show me the code.&rdquo;</p>
-        <footer class="quote-author">&mdash; Linus Torvalds</footer>
+        <footer>&mdash; Linus Torvalds</footer>
       </blockquote>
     </aside>
   </main>
