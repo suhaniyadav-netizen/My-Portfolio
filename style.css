@@ -218,7 +218,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
 
 .section-subtitle {
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem; 
   max-width: 62ch;
 }
 
@@ -428,8 +428,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   display: grid;
   place-items: center;
   background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.75), rgba(90, 174, 245, 0.28));
-  /* Increased glow heavily here */
-  box-shadow: 0 0 45px 12px rgba(var(--accent-rgb), 0.55);
+  box-shadow: 0 0 70px 25px rgba(var(--accent-rgb), 0.75); 
 }
 
 .profile-ring::before {
@@ -440,12 +439,6 @@ body > *:not(.ambient-bg):not(.skip-link) {
   background: radial-gradient(circle, rgba(var(--accent-rgb), 0.16), transparent 70%);
   filter: blur(6px);
   z-index: -1;
-}
-
-.enhanced-glow {
-  /* Class kept for backwards compatibility, but the heavy glow is now directly on .profile-ring */
-  box-shadow: 0 0 45px 12px rgba(var(--accent-rgb), 0.55);
-  border-radius: 50%;
 }
 
 .avatar {
@@ -536,7 +529,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   color: var(--text-muted);
   margin-bottom: 0.95rem;
   max-width: 58ch;
-  font-size: 0.85rem;
+  font-size: 0.8rem; 
 }
 
 .about-text .section-kicker {
@@ -556,7 +549,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
@@ -676,7 +669,7 @@ body.dark-mode .badge-live {
 
 .project-desc {
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: 0.75rem; 
   line-height: 1.62;
   margin-bottom: 0.9rem;
 }
@@ -693,7 +686,7 @@ body.dark-mode .badge-live {
   border: 1px solid var(--border);
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-muted);
 }
@@ -750,7 +743,7 @@ body.dark-mode .badge-live {
   display: grid;
   gap: 0.4rem;
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: 0.75rem; 
   line-height: 1.58;
 }
 
@@ -781,53 +774,68 @@ body.dark-mode .badge-live {
   border-radius: var(--radius);
   position: relative;
   overflow: hidden;
+  z-index: 1;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Option 3: Background Watermarks */
+.grind-card a {
+  position: relative;
+  z-index: 2; 
+}
+
 .grind-card::after {
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
   position: absolute;
-  bottom: -10px;
+  bottom: -15px;
   right: -10px;
-  font-size: 4.5rem;
-  opacity: 0.03;
+  font-size: 6rem;
+  opacity: 0.15;
   line-height: 1;
   pointer-events: none;
-  z-index: 0;
+  z-index: 0; 
   transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
 }
 
 .grind-card:hover::after {
-  transform: scale(1.1) rotate(-5deg);
-  opacity: 0.06;
+  transform: scale(1.1) rotate(-10deg);
+  opacity: 0.25;
 }
 
-.grind-card[data-grind="leetcode"]::after { content: "\f121"; }
-.grind-card[data-grind="codeforces"]::after { content: "\f201"; }
-.grind-card[data-grind="tryhackme"]::after { content: "\f3ed"; }
-.grind-card[data-grind="github"]::after { content: "\f09b"; font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+.grind-card[data-grind="leetcode"]::after { 
+  content: "\f121"; 
+  font-family: "Font Awesome 6 Free"; 
+  font-weight: 900; 
+}
+.grind-card[data-grind="codeforces"]::after { 
+  content: "\f201"; 
+  font-family: "Font Awesome 6 Free"; 
+  font-weight: 900; 
+}
+.grind-card[data-grind="tryhackme"]::after { 
+  content: "\f3ed"; 
+  font-family: "Font Awesome 6 Free"; 
+  font-weight: 900; 
+}
+.grind-card[data-grind="github"]::after { 
+  content: "\f09b"; 
+  font-family: "Font Awesome 6 Brands"; 
+  font-weight: 400; 
+}
 
-/* Option 2: Brand-Tinted Illuminations */
 .grind-card[data-grind="leetcode"]:hover {
-  border-color: rgba(255, 161, 22, 0.5); 
-  box-shadow: 0 8px 24px -12px rgba(255, 161, 22, 0.4);
+  border-color: rgba(255, 161, 22, 0.5) !important; 
+  box-shadow: 0 8px 24px -12px rgba(255, 161, 22, 0.6) !important;
 }
-
 .grind-card[data-grind="codeforces"]:hover {
-  border-color: rgba(25, 139, 204, 0.5); 
-  box-shadow: 0 8px 24px -12px rgba(25, 139, 204, 0.4);
+  border-color: rgba(25, 139, 204, 0.5) !important; 
+  box-shadow: 0 8px 24px -12px rgba(25, 139, 204, 0.6) !important;
 }
-
 .grind-card[data-grind="tryhackme"]:hover {
-  border-color: rgba(171, 248, 79, 0.5); 
-  box-shadow: 0 8px 24px -12px rgba(171, 248, 79, 0.4);
+  border-color: rgba(171, 248, 79, 0.5) !important; 
+  box-shadow: 0 8px 24px -12px rgba(171, 248, 79, 0.6) !important;
 }
-
 .grind-card[data-grind="github"]:hover {
-  border-color: rgba(255, 255, 255, 0.4); 
-  box-shadow: 0 8px 24px -12px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5) !important; 
+  box-shadow: 0 8px 24px -12px rgba(255, 255, 255, 0.4) !important;
 }
 
 .grind-link {
@@ -835,8 +843,6 @@ body.dark-mode .badge-live {
   flex-direction: column;
   gap: 0.6rem;
   padding: 0.8rem 0.9rem;
-  position: relative;
-  z-index: 1;
 }
 
 .grind-head {
@@ -890,6 +896,8 @@ body.dark-mode .badge-live {
   color: var(--text-muted);
   font-size: 0.76rem;
   font-weight: 500;
+  display: block;
+  padding: 0.8rem 0.9rem;
 }
 
 .grind-note {
@@ -899,13 +907,34 @@ body.dark-mode .badge-live {
   letter-spacing: 0.01em;
 }
 
-/* ---------- 11. Hackathons ---------- */
+/* ---------- 11. Hackathons (Redesigned: Dark Cyber Trophy + Scroll) ---------- */
 .poster-wall {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.8rem 1.1rem;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1.25rem;
+  padding: 0.5rem 0 2rem;
   margin-top: 1.8rem;
-  align-items: start;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent-rgb), 0.4) transparent;
+  scroll-padding-left: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.poster-wall::-webkit-scrollbar {
+  height: 8px;
+}
+.poster-wall::-webkit-scrollbar-track {
+  background: transparent;
+}
+.poster-wall::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--accent-rgb), 0.4);
+  border-radius: 999px;
+}
+
+.poster-card-wrapper {
+  flex: 0 0 280px; 
+  scroll-snap-align: start;
 }
 
 .poster-card {
@@ -913,59 +942,68 @@ body.dark-mode .badge-live {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 306px;
-  padding: 0.75rem 0.75rem 1.05rem;
-  border-radius: var(--radius);
-  background-color: #ffffff;
-  color: #16202e;
-  border: 1px solid #ebeff4;
-  box-shadow: 0 6px 18px -12px rgba(15, 23, 42, 0.24);
+  min-height: 310px;
+  padding: 1.75rem 1.25rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--surface); 
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
 .poster-card:hover {
   transform: translateY(-4px);
   border-color: rgba(var(--accent-rgb), 0.45);
-  box-shadow: 0 16px 34px -20px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(var(--accent-rgb), 0.3);
+  box-shadow: var(--shadow-hover), var(--glow-hover);
 }
 
 .featured-poster {
-  background: linear-gradient(180deg, #ffffff 0%, #f5fbff 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.05) 100%);
   border-color: rgba(var(--accent-rgb), 0.36);
 }
 
 .pin {
   position: absolute;
-  top: -8px;
+  top: -1px;
   left: 50%;
   transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
+  width: 48px;
+  height: 3px;
+  border-radius: 0 0 4px 4px;
   background-color: var(--accent);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 0 0 4px rgba(var(--accent-rgb), 0.18);
+  box-shadow: 0 2px 12px 1px rgba(var(--accent-rgb), 0.6);
   z-index: 2;
 }
 
 .poster-image-wrap {
-  width: 100%;
-  height: 148px;
-  border-radius: var(--radius-sm);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
   overflow: hidden;
-  background-color: #f3f5f8;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-strong);
   display: grid;
   place-items: center;
-  margin-bottom: 0.85rem;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+body.dark-mode .poster-image-wrap {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .poster-image {
-  width: 74%;
-  height: 74%;
+  width: 55%;
+  height: 55%;
   object-fit: contain;
 }
 
 .poster-content {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .poster-date {
@@ -975,31 +1013,35 @@ body.dark-mode .badge-live {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-strong);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
 }
 
 .poster-card h3 {
   font-size: 0.95rem;
-  margin-bottom: 0.28rem;
+  margin-bottom: 0.35rem;
 }
 
 .poster-highlight {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent-strong);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .success-text {
   color: #1f9d6b;
 }
 
+body.dark-mode .success-text {
+  color: #4fd39c;
+}
+
 .poster-desc {
-  color: #5b6472;
-  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-size: 0.72rem; 
   line-height: 1.55;
-  max-width: 24ch;
-  margin-inline: auto;
+  max-width: 100%;
+  margin-top: auto;
 }
 
 /* ---------- 12. Certifications, fun fact & quote ---------- */
@@ -1017,7 +1059,7 @@ body.dark-mode .badge-live {
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   background-color: var(--surface);
-  font-size: 0.74rem;
+  font-size: 0.72rem; 
   transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease);
 }
@@ -1356,10 +1398,15 @@ footer {
     justify-content: space-between;
     gap: 0.85rem;
   }
-
+  
   .poster-wall {
-    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-    gap: 1.5rem 0.9rem;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .poster-card-wrapper {
+    flex: 0 0 82vw;
+    scroll-snap-align: center;
   }
 
   .footer-container {
@@ -1388,9 +1435,5 @@ footer {
 
   .grind-stats {
     gap: 0.7rem;
-  }
-
-  .poster-wall {
-    grid-template-columns: 1fr;
   }
 }
