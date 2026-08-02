@@ -208,7 +208,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
 .section-heading h2,
 .about-text h2,
 .footer-left h2 {
-  font-size: clamp(1.32rem, 2.3vw, 1.65rem);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
   margin-bottom: 0.7rem;
 }
 
@@ -439,6 +439,11 @@ body > *:not(.ambient-bg):not(.skip-link) {
   background: radial-gradient(circle, rgba(var(--accent-rgb), 0.16), transparent 70%);
   filter: blur(6px);
   z-index: -1;
+}
+
+.enhanced-glow {
+  box-shadow: 0 0 40px 12px rgba(var(--accent-rgb), 0.5);
+  border-radius: 50%;
 }
 
 .avatar {
