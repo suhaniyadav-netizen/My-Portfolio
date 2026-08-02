@@ -316,7 +316,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   background-color: rgba(var(--accent-rgb), 0.1);
 }
 
-/* ---------- 5. Navigation ---------- */
+/* ---------- 5. Navigation (Fixed Across Entire Site) ---------- */
 .floating-nav {
   position: fixed !important;
   top: 0;
@@ -490,7 +490,7 @@ main#home {
   animation: blink 1.1s steps(1, end) infinite;
 }
 
-/* Updated Hero Meta Row */
+/* Hero Meta Row */
 .hero-meta-row {
   display: flex;
   justify-content: center;
@@ -903,216 +903,228 @@ body.dark-mode .badge-live {
   letter-spacing: 0.01em;
 }
 
-/* ---------- 11. Hackathons (Interactive Index) ---------- */
-.interactive-index {
-  position: relative;
+/* ---------- 11. Hackathons (Option 3: Badge Selector) ---------- */
+.hackathon-interactive-container {
+  margin-top: 1.5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
-  margin-top: 2.5rem;
-  min-height: 380px; 
-}
-
-.index-list {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--border);
-}
-
-.index-item {
-  border-bottom: 1px solid var(--border);
-  cursor: crosshair;
-}
-
-.index-label {
-  display: flex;
-  align-items: center;
   gap: 1rem;
-  padding: 1.6rem 0;
-  color: var(--text-muted);
-  transition: color var(--dur) var(--ease), padding-left var(--dur) var(--ease);
 }
 
-.index-item:hover .index-label {
-  color: var(--text);
-  padding-left: 1rem; 
-}
-
-.index-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-  white-space: nowrap;
-}
-
-/* The dotted connecting line */
-.index-line {
-  flex-grow: 1;
-  height: 1px;
-  background: repeating-linear-gradient(to right, var(--border-strong) 0, var(--border-strong) 2px, transparent 2px, transparent 6px);
-  opacity: 0.3;
-  transition: opacity var(--dur) var(--ease);
-}
-
-.index-item:hover .index-line {
-  opacity: 0.8;
-}
-
-.index-date {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-/* Right Side Preview Area */
-.index-preview {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(50% - 1.5rem);
-  height: 100%;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  transform: translateY(15px);
+.hackathon-badges {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.index-item:hover .index-preview {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  z-index: 10;
-}
-
-.index-list:not(:hover) .index-item:first-child .index-preview {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  z-index: 5;
-}
-.index-list:not(:hover) .index-item:first-child .index-label {
-  color: var(--text);
-}
-
-.preview-card {
-  width: 100%;
-  max-width: 360px;
-  padding: 2.5rem 1.5rem;
-  border-radius: var(--radius-lg);
-  background-color: var(--surface);
+.hack-badge-btn {
+  background: var(--surface);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-hover);
-  text-align: center;
+  color: var(--text-muted);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+
+.hack-badge-btn:hover,
+.hack-badge-btn.active {
+  background: rgba(var(--accent-rgb), 0.12);
+  border-color: rgba(var(--accent-rgb), 0.4);
+  color: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.hackathon-display-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  min-height: 95px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.hackathon-display-box:hover {
+  border-color: rgba(var(--accent-rgb), 0.4);
+  box-shadow: var(--shadow);
+}
+
+.hack-display-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.3rem;
 }
 
-.preview-card.featured-poster {
-  background: linear-gradient(180deg, var(--surface) 0%, rgba(var(--accent-rgb), 0.05) 100%);
-  border-color: rgba(var(--accent-rgb), 0.36);
+.hack-display-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
 }
 
-.index-preview .poster-image-wrap {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 1.25rem;
-  border-radius: 20px;
-  background-color: var(--surface-raised);
-  border: 1px solid var(--border-strong);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+.hack-display-date {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
-body.dark-mode .index-preview .poster-image-wrap {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.index-preview .poster-image {
-  width: 55%;
-  height: 55%;
-  object-fit: contain;
-}
-
-.index-preview .poster-highlight {
-  font-size: 0.85rem;
+.hack-display-highlight {
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--accent-strong);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
-.index-preview .success-text {
+.hack-display-highlight.success {
   color: #1f9d6b;
 }
 
-body.dark-mode .index-preview .success-text {
+body.dark-mode .hack-display-highlight.success {
   color: #4fd39c;
 }
 
-.index-preview .poster-desc {
+.hack-display-desc {
+  font-size: 0.75rem;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  margin: 0;
+  line-height: 1.5;
 }
 
-/* ---------- 12. Certifications, fun fact & quote ---------- */
-.cert-chips {
+/* ---------- 12. Certifications (Option 2: Inline Pills + Lightbox Modal) ---------- */
+.cert-pills-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
+  margin-top: 1.25rem;
 }
 
-.cert-chip {
+.cert-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.45rem 0.8rem;
+  padding: 0.45rem 0.9rem;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  background-color: var(--surface);
-  font-size: 0.72rem; 
-  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease),
-    box-shadow var(--dur) var(--ease);
-}
-
-.cert-chip:hover {
-  transform: translateY(-2px);
-  border-color: rgba(var(--accent-rgb), 0.45);
-  box-shadow: 0 8px 20px -16px rgba(var(--accent-rgb), 0.8);
-}
-
-.cert-chip i {
-  color: var(--accent-strong);
-  font-size: 0.8rem;
-}
-
-.cert-name {
+  font-size: 0.76rem;
   font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
 }
 
-.cert-issuer {
+.cert-pill i {
+  color: var(--accent-strong);
+}
+
+.cert-pill-issuer {
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.cert-pill:hover {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: rgba(var(--accent-rgb), 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -10px rgba(var(--accent-rgb), 0.5);
+}
+
+/* Modal Styling */
+.cert-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cert-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cert-modal-content {
+  position: relative;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: scale(0.95);
+  transition: transform 0.3s var(--ease);
+}
+
+.cert-modal.is-open .cert-modal-content {
+  transform: scale(1);
+}
+
+.cert-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
   color: var(--text-muted);
-  font-size: 0.7rem;
+  transition: all var(--dur) var(--ease);
 }
 
-.cert-issuer::before {
-  content: "· ";
+.cert-modal-close:hover {
+  color: var(--text);
+  background: rgba(var(--accent-rgb), 0.1);
+  border-color: rgba(var(--accent-rgb), 0.4);
 }
 
-.fun-fact {
-  margin-top: 1.25rem;
-  color: var(--text-muted);
+.cert-modal-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.cert-modal-issuer {
   font-size: 0.78rem;
+  color: var(--accent-strong);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
+.cert-modal-img-wrap {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.cert-modal-img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- 13. Quote, Footer & back-to-top ---------- */
 .quote-block {
   width: min(var(--max-width), 90%);
   margin: 0 auto;
@@ -1136,7 +1148,6 @@ body.dark-mode .index-preview .success-text {
   text-transform: uppercase;
 }
 
-/* ---------- 13. Footer & back-to-top ---------- */
 footer {
   border-top: 1px solid var(--border);
 }
@@ -1267,8 +1278,7 @@ footer {
 .reveal .exp-item,
 .reveal .skills-row,
 .reveal .grind-card,
-.reveal .cert-chip,
-.reveal .index-item {
+.reveal .cert-pill {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 520ms var(--ease), transform 520ms var(--ease), box-shadow var(--dur) var(--ease),
@@ -1281,8 +1291,7 @@ footer {
 .reveal.is-visible .exp-item,
 .reveal.is-visible .skills-row,
 .reveal.is-visible .grind-card,
-.reveal.is-visible .cert-chip,
-.reveal.is-visible .index-item {
+.reveal.is-visible .cert-pill {
   opacity: 1;
   transform: none;
 }
@@ -1359,50 +1368,6 @@ footer {
 
   .first-section {
     padding-top: 3rem;
-  }
-  
-  /* Mobile adaptation for Interactive Index Hackathons */
-  .interactive-index {
-    grid-template-columns: 1fr;
-    gap: 0;
-    min-height: auto;
-  }
-  .index-label {
-    padding: 1.2rem 0;
-  }
-  .index-line {
-    display: none; 
-  }
-  .index-date {
-    margin-left: auto;
-  }
-  .index-preview {
-    position: relative;
-    width: 100%;
-    height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: none;
-    transition: height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
-    padding: 0;
-    overflow: hidden;
-  }
-  .index-list:not(:hover) .index-item:first-child .index-preview {
-    height: 0;
-    opacity: 0;
-    padding: 0;
-    visibility: hidden;
-  }
-  .index-item:hover .index-preview,
-  .index-item:active .index-preview {
-    height: auto;
-    opacity: 1;
-    visibility: visible;
-    padding: 0 0 1.5rem 0;
-  }
-  .preview-card {
-    padding: 1.5rem;
-    max-width: 100%;
   }
 }
 
