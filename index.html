@@ -42,6 +42,180 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <style>
+ 
+    .floating-nav {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+    
+    main#home {
+      padding-top: calc(var(--nav-height, 58px) + 2rem);
+    }
+
+    .hero-meta-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .hero-meta-row .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    
+    .hero-meta-row .meta-item i,
+    .hero-meta-row .meta-item span[aria-hidden="true"] {
+      color: var(--accent-strong);
+      font-size: 1rem;
+    }
+    
+    .resume-link-btn {
+      color: var(--accent-strong) !important;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-pill);
+      background-color: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+      transition: all var(--dur) var(--ease);
+    }
+    
+    .resume-link-btn:hover {
+      background-color: rgba(var(--accent-rgb), 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ---------------------------------------------------
+       OVERRIDE: Minimalist Hackathon Timeline
+    --------------------------------------------------- */
+    .timeline {
+      position: relative;
+      max-width: 760px;
+      margin: 2.5rem auto 0;
+      padding-left: 1.5rem;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background-color: var(--border);
+      border-radius: 2px;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-dot {
+      position: absolute;
+      left: -1.85rem;
+      top: 0.35rem;
+      width: 12px;
+      height: 12px;
+      background-color: var(--accent-strong);
+      border: 2px solid var(--bg);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2);
+    }
+    
+    .timeline-content {
+      padding: 1.25rem 1.5rem;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    
+    .timeline-content:hover {
+      transform: translateX(4px);
+      border-color: rgba(var(--accent-rgb), 0.4);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .timeline-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    
+    .timeline-date {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      background-color: rgba(134, 197, 252, 0.08); /* Subtle accent bg */
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+    }
+    
+    .timeline-highlight {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent-strong);
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .timeline-highlight.success {
+      color: #1f9d6b;
+    }
+    
+    body.dark-mode .timeline-highlight.success {
+      color: #4fd39c;
+    }
+    
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+      .timeline-date {
+        order: -1; /* Move date above title on mobile */
+        margin-bottom: 0.2rem;
+      }
+    }
+  </style>
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -105,14 +279,16 @@
               aria-hidden="true">|</span>
           </p>
 
-          <ul class="hero-meta">
-            <li><span aria-hidden="true">📍</span> Gurgaon, India</li>
-            <li><span aria-hidden="true">🕒</span> <span id="live-time">Sunday, August 2, 2026, 3:18 PM IST</span></li>
-          </ul>
-
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-accent">View Projects</a>
-            <a href="mailto:suhani.yadavmicro@gmail.com" class="btn btn-secondary">Get in Touch</a>
+          <div class="hero-meta-row">
+            <span class="meta-item">
+              <span aria-hidden="true">📍</span> Gurgaon, India
+            </span>
+            <span class="meta-item">
+              <span aria-hidden="true">🕒</span> <span id="ist-time">Loading...</span> IST
+            </span>
+            <a href="SY Resume.pdf" target="_blank" rel="noopener noreferrer" class="meta-item resume-link-btn" aria-label="Open Resume PDF">
+              <i class="fas fa-file-pdf" aria-hidden="true"></i> Resume
+            </a>
           </div>
         </div>
 
@@ -386,105 +562,68 @@
         </p>
       </div>
 
-      <div class="interactive-index">
-        <ul class="index-list">
-          
-          <li class="index-item">
-            <div class="index-label">
-              <h3 class="index-title">HACK KRMU 5.0</h3>
-              <span class="index-line"></span>
-              <span class="index-date">Feb 2026</span>
+      <div class="timeline">
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">HACK KRMU 5.0</h3>
+              <span class="timeline-date">Feb 2026</span>
             </div>
-            <div class="index-preview">
-              <div class="preview-card featured-poster">
-                <div class="poster-image-wrap">
-                  <img src="https://www.hackkrmu.in/static/media/logo.d76f47f9810287da119a.png" alt="HACK KRMU 5.0 logo" class="poster-image" loading="lazy" />
-                </div>
-                <div class="poster-content">
-                  <p class="poster-highlight">Built Sentinel</p>
-                  <p class="poster-desc">56-hour hackathon focused on building an early outbreak warning dashboard.</p>
-                </div>
-              </div>
-            </div>
-          </li>
+            <p class="timeline-highlight">Built Sentinel</p>
+            <p class="timeline-desc">56-hour hackathon focused on building an early outbreak warning dashboard.</p>
+          </div>
+        </div>
 
-          <li class="index-item">
-            <div class="index-label">
-              <h3 class="index-title">Aarambhathon</h3>
-              <span class="index-line"></span>
-              <span class="index-date">Nov 2025</span>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Aarambhathon</h3>
+              <span class="timeline-date">Nov 2025</span>
             </div>
-            <div class="index-preview">
-              <div class="preview-card">
-                <div class="poster-image-wrap">
-                  <img src="https://aarambhathon.netlify.app/assets/arambh-ywTRIav8.png" alt="Aarambhathon logo" class="poster-image" loading="lazy" />
-                </div>
-                <div class="poster-content">
-                  <p class="poster-highlight success-text">4th out of 100 Teams</p>
-                  <p class="poster-desc">Secured a top finish with a strong production-oriented solution.</p>
-                </div>
-              </div>
-            </div>
-          </li>
+            <p class="timeline-highlight success">4th out of 100 Teams</p>
+            <p class="timeline-desc">Secured a top finish with a strong production-oriented solution.</p>
+          </div>
+        </div>
 
-          <li class="index-item">
-            <div class="index-label">
-              <h3 class="index-title">MUJ HackX 3.0</h3>
-              <span class="index-line"></span>
-              <span class="index-date">Nov 2025</span>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">MUJ HackX 3.0</h3>
+              <span class="timeline-date">Nov 2025</span>
             </div>
-            <div class="index-preview">
-              <div class="preview-card">
-                <div class="poster-image-wrap">
-                  <img src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-68daa29b0a57a_logo_1.png?d=200x200" alt="MUJ HackX 3.0 logo" class="poster-image" loading="lazy" />
-                </div>
-                <div class="poster-content">
-                  <p class="poster-highlight success-text">Top 25 Teams</p>
-                  <p class="poster-desc">Advanced through multiple competitive evaluation rounds.</p>
-                </div>
-              </div>
-            </div>
-          </li>
+            <p class="timeline-highlight success">Top 25 Teams</p>
+            <p class="timeline-desc">Advanced through multiple competitive evaluation rounds.</p>
+          </div>
+        </div>
 
-          <li class="index-item">
-            <div class="index-label">
-              <h3 class="index-title">Smart India Hackathon</h3>
-              <span class="index-line"></span>
-              <span class="index-date">Sep 2025</span>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Smart India Hackathon</h3>
+              <span class="timeline-date">Sep 2025</span>
             </div>
-            <div class="index-preview">
-              <div class="preview-card">
-                <div class="poster-image-wrap">
-                  <img src="https://www.sih.gov.in/img/favicon-sih.png" alt="Smart India Hackathon logo" class="poster-image" loading="lazy" />
-                </div>
-                <div class="poster-content">
-                  <p class="poster-highlight success-text">Cleared Internal Round</p>
-                  <p class="poster-desc">Progressed in India&rsquo;s largest national-level hackathon.</p>
-                </div>
-              </div>
-            </div>
-          </li>
+            <p class="timeline-highlight success">Cleared Internal Round</p>
+            <p class="timeline-desc">Progressed in India&rsquo;s largest national-level hackathon.</p>
+          </div>
+        </div>
 
-          <li class="index-item">
-            <div class="index-label">
-              <h3 class="index-title">Hack4Delhi</h3>
-              <span class="index-line"></span>
-              <span class="index-date">Jan 2026</span>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h3 class="timeline-title">Hack4Delhi</h3>
+              <span class="timeline-date">Jan 2026</span>
             </div>
-            <div class="index-preview">
-              <div class="preview-card">
-                <div class="poster-image-wrap">
-                  <img src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-69416d35b0bae_instagram_post_-_144.png?d=200x200" alt="Hack4Delhi logo" class="poster-image" loading="lazy" />
-                </div>
-                <div class="poster-content">
-                  <p class="poster-highlight">Civic Tech Participation</p>
-                  <p class="poster-desc">Worked on technology-driven ideas for practical civic challenges.</p>
-                </div>
-              </div>
-            </div>
-          </li>
+            <p class="timeline-highlight">Civic Tech Participation</p>
+            <p class="timeline-desc">Worked on technology-driven ideas for practical civic challenges.</p>
+          </div>
+        </div>
 
-        </ul>
       </div>
     </section>
 
@@ -571,6 +710,28 @@
   </button>
 
   <script src="script.js" defer></script>
+  
+  <!-- Live IST Clock Script -->
+  <script>
+    function updateISTTime() {
+      const timeElement = document.getElementById('ist-time');
+      if (timeElement) {
+        const now = new Date();
+        const options = {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        };
+        timeElement.textContent = now.toLocaleTimeString('en-US', options);
+      }
+    }
+    // Update every second
+    setInterval(updateISTTime, 1000);
+    // Initial call
+    updateISTTime();
+  </script>
 </body>
 
 </html>
