@@ -1,561 +1,423 @@
-<!DOCTYPE html>
-<html lang="en">
+(function () {
+  "use strict";
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  <title>Suhani Yadav — Developer &amp; Cybersecurity Enthusiast</title>
-  <meta name="description"
-    content="Suhani Yadav — B.Tech CSE student in Gurgaon building secure software. Web development, cybersecurity, open source, and projects shipped end to end." />
-  <meta name="author" content="Suhani Yadav" />
-  <link rel="canonical" href="https://suhaniyadavv.netlify.app/" />
+  /* Platform handles — update these in one place. */
+  var HANDLES = {
+    leetcode: "suhaniyadavv",
+    codeforces: "suhaniyadavv",
+    tryhackme: "suhaniyadavv",
+    github: "suhaniyadav-netizen"
+  };
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Suhani Yadav — Developer &amp; Cybersecurity Enthusiast" />
-  <meta property="og:description"
-    content="Building secure software, exploring cybersecurity, and learning something new every day." />
-  <meta property="og:image" content="https://suhaniyadavv.netlify.app/assets/profile.jpg" />
-  <meta property="og:image:alt" content="Portrait of Suhani Yadav" />
-  <meta property="og:url" content="https://suhaniyadavv.netlify.app/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Suhani Yadav" />
-  <meta property="og:locale" content="en_IN" />
+  /* ---------- Small helpers ---------- */
+  function $(selector, scope) {
+    return (scope || document).querySelector(selector);
+  }
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Suhani Yadav — Developer &amp; Cybersecurity Enthusiast" />
-  <meta name="twitter:description"
-    content="Building secure software, exploring cybersecurity, and learning something new every day." />
-  <meta name="twitter:image" content="https://suhaniyadavv.netlify.app/assets/profile.jpg" />
-  <meta name="twitter:image:alt" content="Portrait of Suhani Yadav" />
+  function $all(selector, scope) {
+    return Array.prototype.slice.call((scope || document).querySelectorAll(selector));
+  }
 
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  /** Runs a callback at most once per animation frame while scrolling. */
+  function onScroll(handler) {
+    var scheduled = false;
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Suhani Yadav",
-      "jobTitle": "Software Developer",
-      "description": "B.Tech CSE student building secure software across web development, cybersecurity, and open source.",
-      "url": "https://suhaniyadavv.netlify.app/",
-      "image": "https://suhaniyadavv.netlify.app/assets/profile.jpg",
-      "address": { "@type": "PostalAddress", "addressLocality": "Gurgaon", "addressCountry": "IN" },
-      "sameAs": [
-        "https://github.com/suhaniyadav-netizen",
-        "https://www.linkedin.com/in/suhaniyadavv"
-      ]
+    function run() {
+      scheduled = false;
+      handler();
     }
-  </script>
-</head>
 
-<body>
-  <!-- Premium ambient CSS background wrapper -->
-  <div class="ambient-bg-wrapper" aria-hidden="true">
-    <div class="ambient-bg"></div>
-  </div>
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!scheduled) {
+          scheduled = true;
+          window.requestAnimationFrame(run);
+        }
+      },
+      { passive: true }
+    );
 
-  <a class="skip-link" href="#home">Skip to content</a>
+    handler();
+  }
 
-  <header class="floating-nav">
-    <div class="nav-shell">
-      <a href="#home" class="logo" aria-label="Suhani Yadav — home">SY</a>
+  /** Fetches JSON with a timeout; resolves to null on any failure. */
+  function fetchJson(url, timeoutMs) {
+    if (typeof window.fetch !== "function") return Promise.resolve(null);
 
-      <nav class="right-nav" id="navbar" aria-label="Primary Navigation">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#grinding" class="nav-link">Grinding</a>
-        <a href="#contact" class="nav-link">Contact</a>
+    var controller = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = window.setTimeout(function () {
+      if (controller) controller.abort();
+    }, timeoutMs || 7000);
 
-        <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to dark theme"
-          aria-pressed="false">
-          <i class="fas fa-moon" aria-hidden="true"></i>
-        </button>
-      </nav>
-    </div>
-  </header>
+    return window
+      .fetch(url, controller ? { signal: controller.signal } : undefined)
+      .then(function (response) {
+        return response.ok ? response.json() : null;
+      })
+      .catch(function () {
+        return null;
+      })
+      .then(function (data) {
+        window.clearTimeout(timer);
+        return data;
+      });
+  }
 
-  <main id="home">
-    <section id="about" class="section reveal first-section" aria-labelledby="about-heading">
-      <div class="about-flex">
-        <div class="profile-hero">
-          <div class="profile-ring">
-            <img src="./assets/profile.jpg" alt="Portrait of Suhani Yadav" class="avatar" width="196" height="196"
-              fetchpriority="high" />
-          </div>
+  function formatCount(value) {
+    if (typeof value !== "number" || !isFinite(value)) return null;
+    if (value >= 1000000) return (value / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    if (value >= 10000) return Math.round(value / 1000) + "k";
+    return String(value);
+  }
 
-          <p class="intro-line">Hello, I&rsquo;m</p>
-          <h1 class="name">Suhani Yadav</h1>
+  /* ---------- 1. Theme ---------- */
+  function initTheme() {
+    var toggle = $("#theme-toggle");
+    if (!toggle) return;
 
-          <p class="typing-container">
-            <span class="typewriter" id="roles" aria-live="polite" data-phrases='["Building secure software", "exploring cybersecurity", "learning something new every day.", "open source contributor"]'></span><span class="cursor"
-              aria-hidden="true">|</span>
-          </p>
+    var icon = toggle.querySelector("i");
+    var stored = null;
 
-          <ul class="hero-meta">
-            <li><span aria-hidden="true">📍</span> Gurgaon, India</li>
-            <li><span aria-hidden="true">🕒</span> <span id="live-time">Sunday, August 2, 2026, 3:18 PM IST</span></li>
-          </ul>
+    try {
+      stored = localStorage.getItem("theme");
+    } catch (error) {
+      stored = null;
+    }
 
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-accent">View Projects</a>
-            <a href="mailto:suhani.yadavmicro@gmail.com" class="btn btn-secondary">Get in Touch</a>
-          </div>
-        </div>
+    var systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var isDark = stored ? stored === "dark" : systemPrefersDark;
 
-        <div class="about-text">
-          <p class="section-kicker">About Me</p>
-          <h2 id="about-heading">Building, learning, and growing through technology.</h2>
-          <p>
-            I am a computer science student who works across web development and cybersecurity.
-            I build responsive, accessible interfaces, study how systems can be secured rather
-            than only shipped, and contribute to open source to learn from real codebases.
-          </p>
-          <p>
-            Most of what I know comes from building: breaking a problem down, choosing the
-            simplest workable approach, and improving it with each iteration. Curious mind,
-            developer, builder, lifelong learner.
-          </p>
+    function apply(dark) {
+      document.body.classList.toggle("dark-mode", dark);
+      toggle.setAttribute("aria-pressed", dark ? "true" : "false");
+      toggle.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
 
-          <ul class="about-highlights">
-            <li class="highlight-card card">
-              <i class="fas fa-code" aria-hidden="true"></i>
-              <span>Web Development</span>
-            </li>
-            <li class="highlight-card card">
-              <i class="fas fa-shield-halved" aria-hidden="true"></i>
-              <span>Cybersecurity</span>
-            </li>
-            <li class="highlight-card card">
-              <i class="fab fa-github" aria-hidden="true"></i>
-              <span>Open Source</span>
-            </li>
-            <li class="highlight-card card">
-              <i class="fas fa-lightbulb" aria-hidden="true"></i>
-              <span>Problem Solving</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      if (icon) {
+        icon.classList.toggle("fa-sun", dark);
+        icon.classList.toggle("fa-moon", !dark);
+      }
+    }
 
-    <section id="skills" class="section reveal" aria-labelledby="skills-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Technical Toolkit</p>
-        <h2 id="skills-heading">Technologies and tools I use to build, learn, and experiment.</h2>
-        <p class="section-subtitle">
-          A balanced mix of development, programming, databases, tools, and foundational technical interests.
-        </p>
-      </div>
+    apply(isDark);
 
-      <div class="skills-strip">
-        <div class="skills-row">
-          <div class="skills-left">Frontend</div>
-          <div class="skills-right">
-            <span><i class="fab fa-html5" aria-hidden="true"></i> HTML</span>
-            <span><i class="fab fa-css3-alt" aria-hidden="true"></i> CSS</span>
-            <span><i class="fab fa-js" aria-hidden="true"></i> JavaScript</span>
-            <span><i class="fab fa-react" aria-hidden="true"></i> React</span>
-          </div>
-        </div>
+    toggle.addEventListener("click", function () {
+      isDark = !isDark;
+      apply(isDark);
 
-        <div class="skills-row">
-          <div class="skills-left">Backend</div>
-          <div class="skills-right">
-            <span><i class="fas fa-flask" aria-hidden="true"></i> Flask</span>
-            <span><i class="fas fa-bolt" aria-hidden="true"></i> FastAPI</span>
-            <span><i class="fas fa-database" aria-hidden="true"></i> MySQL</span>
-            <span><i class="fas fa-server" aria-hidden="true"></i> REST API</span>
-          </div>
-        </div>
+      try {
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      } catch (error) {
+        /* storage unavailable — theme still applies for this session */
+      }
+    });
+  }
 
-        <div class="skills-row">
-          <div class="skills-left">Programming</div>
-          <div class="skills-right">
-            <span><i class="fab fa-python" aria-hidden="true"></i> Python</span>
-            <span><i class="fas fa-code" aria-hidden="true"></i> C++</span>
-          </div>
-        </div>
+  /* ---------- 2. Typing animation ---------- */
+  function initTypewriter() {
+    var target = $("#roles");
+    if (!target) return;
 
-        <div class="skills-row">
-          <div class="skills-left">Other</div>
-          <div class="skills-right">
-            <span><i class="fas fa-shield-halved" aria-hidden="true"></i> Cybersecurity</span>
-            <span><i class="fas fa-cubes" aria-hidden="true"></i> Blockchain</span>
-            <span><i class="fab fa-linux" aria-hidden="true"></i> Linux</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    var roles = [
+      "Building secure software",
+      "Web Developer",
+      "Cybersecurity Enthusiast",
+      "Open Source Contributor"
+    ];
 
-    <section id="projects" class="section reveal" aria-labelledby="projects-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Projects</p>
-        <h2 id="projects-heading">Things I&rsquo;ve built while learning and exploring development.</h2>
-        <p class="section-subtitle">
-          Each project started from a real problem and was shipped end to end, from interface to data.
-        </p>
-      </div>
+    if (prefersReducedMotion) {
+      target.textContent = roles[0];
+      return;
+    }
 
-      <div class="projects-grid">
-        <article class="project-card card">
-          <div class="project-top">
-            <h3>GitMetrics</h3>
-            <span class="badge badge-live">Live</span>
-          </div>
-          <p class="project-desc">
-            A GitHub analytics dashboard that turns repository activity into readable signals —
-            commit history, languages, and contribution patterns, with AI generated insights on
-            developer productivity trends.
-          </p>
-          <ul class="tech-stack">
-            <li>React</li>
-            <li>FastAPI</li>
-            <li>GitHub API</li>
-            <li>AI Insights</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://gitmetrics-sy.vercel.app/" target="_blank" rel="noopener noreferrer"
-              class="btn btn-accent">
-              Live Demo <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-            <a href="https://github.com/suhaniyadav-netizen" target="_blank" rel="noopener noreferrer"
-              class="btn btn-secondary">
-              GitHub <i class="fab fa-github" aria-hidden="true"></i>
-            </a>
-          </div>
-        </article>
+    var TYPE_SPEED = 92;
+    var ERASE_SPEED = 40;
+    var HOLD_FULL = 1900;
+    var HOLD_EMPTY = 420;
 
-        <article class="project-card card">
-          <div class="project-top">
-            <h3>Pravah</h3>
-            <span class="badge badge-live">Live</span>
-          </div>
-          <p class="project-desc">
-            A flood monitoring platform for Delhi that visualises water level and rainfall data in
-            real time. Live readings from public APIs are plotted on an interactive map so risk
-            areas read at a glance.
-          </p>
-          <ul class="tech-stack">
-            <li>JavaScript</li>
-            <li>Leaflet Maps</li>
-            <li>Public APIs</li>
-            <li>Data Viz</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://pravah-proj.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-accent">
-              Live Demo <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-            <a href="https://github.com/suhaniyadav-netizen" target="_blank" rel="noopener noreferrer"
-              class="btn btn-secondary">
-              GitHub <i class="fab fa-github" aria-hidden="true"></i>
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
+    var roleIndex = 0;
+    var charIndex = 0;
+    var erasing = false;
 
-    <section id="experience" class="section reveal" aria-labelledby="experience-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Experience</p>
-        <h2 id="experience-heading">Practical exposure and team-based involvement.</h2>
-        <p class="section-subtitle">
-          Roles where I contributed to real work and built technical and communication confidence.
-        </p>
-      </div>
+    function tick() {
+      var role = roles[roleIndex];
 
-      <div class="experience-container">
-        <article class="exp-item card">
-          <div class="exp-header">
-            <div>
-              <h3>Cybersecurity Intern</h3>
-              <p class="exp-company">Usha International</p>
-            </div>
-            <span class="exp-date">Jun 2026 &ndash; Aug 2026</span>
-          </div>
-          <ul>
-            <li>Assisted vulnerability assessments across internal web assets.</li>
-            <li>Documented findings with reproduction steps and remediation advice.</li>
-            <li>Supported access reviews and security awareness activities.</li>
-          </ul>
-        </article>
+      charIndex += erasing ? -1 : 1;
+      target.textContent = role.slice(0, charIndex);
 
-        <article class="exp-item card">
-          <div class="exp-header">
-            <div>
-              <h3>Campus Ambassador</h3>
-              <p class="exp-company">IIT Delhi</p>
-            </div>
-            <span class="exp-date">Dec 2025 &ndash; Feb 2026</span>
-          </div>
-          <ul>
-            <li>Represented the programme on campus and drove student participation.</li>
-            <li>Coordinated peer outreach to increase event visibility and sign-ups.</li>
-            <li>Strengthened communication, coordination, and networking skills.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
+      var delay = erasing ? ERASE_SPEED : TYPE_SPEED;
 
-    <section id="grinding" class="section section-compact reveal" aria-labelledby="grinding-heading">
-      <div class="section-heading section-heading-tight">
-        <p class="section-kicker">Currently Grinding</p>
-        <h2 id="grinding-heading">Where I practise, break things, and keep score.</h2>
-      </div>
+      if (!erasing && charIndex === role.length) {
+        erasing = true;
+        delay = HOLD_FULL;
+      } else if (erasing && charIndex === 0) {
+        erasing = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        delay = HOLD_EMPTY;
+      }
 
-      <ul class="grind-strip" id="grind-strip">
-        <li class="grind-card card" data-grind="leetcode">
-          <a class="grind-link" href="https://leetcode.com/u/suhaniyadavv/" target="_blank" rel="noopener noreferrer">
-            <span class="grind-head">
-              <i class="fas fa-code" aria-hidden="true"></i>
-              <span class="grind-name">LeetCode</span>
-            </span>
-            <span class="grind-stats" data-stats>
-              <span class="grind-stat"><b data-field="solved">—</b><small>Solved</small></span>
-              <span class="grind-stat"><b data-field="rating">—</b><small>Rating</small></span>
-              <span class="grind-stat"><b data-field="rank">—</b><small>Rank</small></span>
-            </span>
-          </a>
-        </li>
+      window.setTimeout(tick, delay);
+    }
 
-        <li class="grind-card card" data-grind="codeforces">
-          <a class="grind-link" href="https://codeforces.com/profile/suhaniyadavv" target="_blank"
-            rel="noopener noreferrer">
-            <span class="grind-head">
-              <i class="fas fa-chart-line" aria-hidden="true"></i>
-              <span class="grind-name">Codeforces</span>
-            </span>
-            <span class="grind-stats" data-stats>
-              <span class="grind-stat"><b data-field="rating">—</b><small>Rating</small></span>
-              <span class="grind-stat"><b data-field="max">—</b><small>Max</small></span>
-              <span class="grind-stat"><b data-field="rank">—</b><small>Rank</small></span>
-            </span>
-          </a>
-        </li>
+    tick();
+  }
 
-        <li class="grind-card card" data-grind="tryhackme">
-          <a class="grind-link" href="https://tryhackme.com/p/suhaniyadavv" target="_blank" rel="noopener noreferrer">
-            <span class="grind-head">
-              <i class="fas fa-shield-halved" aria-hidden="true"></i>
-              <span class="grind-name">TryHackMe</span>
-            </span>
-            <span class="grind-stats" data-stats>
-              <span class="grind-stat"><b data-field="rank">—</b><small>Rank</small></span>
-              <span class="grind-stat"><b data-field="rooms">—</b><small>Rooms</small></span>
-              <span class="grind-stat"><b data-field="streak">—</b><small>Streak</small></span>
-            </span>
-          </a>
-        </li>
+  /* ---------- 3. Scroll reveal + stagger ---------- */
+  function initReveal() {
+    var blocks = $all(".reveal");
+    if (!blocks.length) return;
 
-        <li class="grind-card card" data-grind="github">
-          <a class="grind-link" href="https://github.com/suhaniyadav-netizen" target="_blank" rel="noopener noreferrer">
-            <span class="grind-head">
-              <i class="fab fa-github" aria-hidden="true"></i>
-              <span class="grind-name">GitHub</span>
-            </span>
-            <span class="grind-stats" data-stats>
-              <span class="grind-stat"><b data-field="repos">—</b><small>Repos</small></span>
-              <span class="grind-stat"><b data-field="stars">—</b><small>Stars</small></span>
-              <span class="grind-stat"><b data-field="followers">—</b><small>Followers</small></span>
-            </span>
-          </a>
-        </li>
-      </ul>
+    var STAGGER_SELECTOR =
+      ".highlight-card, .project-card, .exp-item, .poster-card, .skills-row, .grind-card, .cert-chip";
 
-      <p class="grind-note" id="grind-note" role="status">Stats refresh live from each platform.</p>
-    </section>
+    blocks.forEach(function (block) {
+      $all(STAGGER_SELECTOR, block).forEach(function (child, index) {
+        child.style.setProperty("--stagger", index * 70 + "ms");
+      });
+    });
 
-    <section id="hackathons" class="section reveal" aria-labelledby="hackathons-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Hackathons</p>
-        <h2 id="hackathons-heading">Captured through builds, pressure, and competitive learning.</h2>
-        <p class="section-subtitle">
-          Hackathons where I worked on real-world ideas, collaborated in teams, and improved my
-          project-building approach.
-        </p>
-      </div>
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      blocks.forEach(function (block) {
+        block.classList.add("is-visible");
+      });
+      return;
+    }
 
-      <div class="poster-wall hackathon-grid">
-        <div class="poster-card-wrapper">
-          <article class="poster-card featured-poster">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="poster-image-wrap">
-              <img src="https://www.hackkrmu.in/static/media/logo.d76f47f9810287da119a.png" alt="HACK KRMU 5.0 logo"
-                class="poster-image" loading="lazy" />
-            </div>
-            <div class="poster-content">
-              <span class="poster-date">Feb 2026</span>
-              <h3>HACK KRMU 5.0</h3>
-              <p class="poster-highlight">Built Sentinel</p>
-              <p class="poster-desc">56-hour hackathon focused on building an early outbreak warning dashboard.</p>
-            </div>
-          </article>
-        </div>
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
 
-        <div class="poster-card-wrapper">
-          <article class="poster-card">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="poster-image-wrap">
-              <img src="https://aarambhathon.netlify.app/assets/arambh-ywTRIav8.png" alt="Aarambhathon logo"
-                class="poster-image" loading="lazy" />
-            </div>
-            <div class="poster-content">
-              <span class="poster-date">Nov 2025</span>
-              <h3>Aarambhathon</h3>
-              <p class="poster-highlight success-text">4th out of 100 Teams</p>
-              <p class="poster-desc">Secured a top finish with a strong production-oriented solution.</p>
-            </div>
-          </article>
-        </div>
+    blocks.forEach(function (block) {
+      observer.observe(block);
+    });
+  }
 
-        <div class="poster-card-wrapper">
-          <article class="poster-card">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="poster-image-wrap">
-              <img
-                src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-68daa29b0a57a_logo_1.png?d=200x200"
-                alt="MUJ HackX 3.0 logo" class="poster-image" loading="lazy" />
-            </div>
-            <div class="poster-content">
-              <span class="poster-date">Nov 2025</span>
-              <h3>MUJ HackX 3.0</h3>
-              <p class="poster-highlight success-text">Top 25 Teams</p>
-              <p class="poster-desc">Advanced through multiple competitive evaluation rounds.</p>
-            </div>
-          </article>
-        </div>
+  /* ---------- 4 & 5. Active nav indicator + nav elevation ---------- */
+  function initNav() {
+    var nav = $(".floating-nav");
+    var links = $all(".nav-link");
 
-        <div class="poster-card-wrapper">
-          <article class="poster-card">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="poster-image-wrap">
-              <img src="https://www.sih.gov.in/img/favicon-sih.png" alt="Smart India Hackathon logo" class="poster-image"
-                loading="lazy" />
-            </div>
-            <div class="poster-content">
-              <span class="poster-date">Sep 2025</span>
-              <h3>Smart India Hackathon</h3>
-              <p class="poster-highlight success-text">Cleared Internal Round</p>
-              <p class="poster-desc">Progressed in India&rsquo;s largest national-level hackathon.</p>
-            </div>
-          </article>
-        </div>
+    var targets = links
+      .map(function (link) {
+        var id = link.getAttribute("href") || "";
+        var section = id.charAt(0) === "#" ? document.getElementById(id.slice(1)) : null;
+        return section ? { link: link, section: section } : null;
+      })
+      .filter(Boolean);
 
-        <div class="poster-card-wrapper">
-          <article class="poster-card">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="poster-image-wrap">
-              <img
-                src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-69416d35b0bae_instagram_post_-_144.png?d=200x200"
-                alt="Hack4Delhi logo" class="poster-image" loading="lazy" />
-            </div>
-            <div class="poster-content">
-              <span class="poster-date">Jan 2026</span>
-              <h3>Hack4Delhi</h3>
-              <p class="poster-highlight">Civic Tech Participation</p>
-              <p class="poster-desc">Worked on technology-driven ideas for practical civic challenges.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+    onScroll(function () {
+      if (nav) {
+        nav.classList.toggle("is-scrolled", window.scrollY > 8);
+      }
 
-    <section id="certifications" class="section reveal" aria-labelledby="certifications-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Certifications</p>
-        <h2 id="certifications-heading">Learning tracked and verified.</h2>
-      </div>
+      if (!targets.length) return;
 
-      <div class="certificate-gallery">
-        <article class="certificate-card">
-          <a href="./assets/cert-usha.jpg" target="_blank" rel="noopener noreferrer" class="cert-img-link" aria-label="Open Usha International Certificate">
-            <div class="cert-img-placeholder">
-              <img src="./assets/cert-usha-thumb.jpg" alt="Usha International Cybersecurity Certificate" loading="lazy" />
-            </div>
-          </a>
-          <div class="cert-details">
-            <h3 class="cert-title">Cybersecurity Internship</h3>
-            <p class="cert-issuer">Usha International</p>
-          </div>
-        </article>
+      var offset = (nav ? nav.offsetHeight : 0) + 48;
+      var current = targets[0];
 
-        <article class="certificate-card">
-          <a href="./assets/cert-tutedude.jpg" target="_blank" rel="noopener noreferrer" class="cert-img-link" aria-label="Open Tutedude Certificate">
-            <div class="cert-img-placeholder">
-              <img src="./assets/cert-tutedude-thumb.jpg" alt="Tutedude Cybersecurity Certificate" loading="lazy" />
-            </div>
-          </a>
-          <div class="cert-details">
-            <h3 class="cert-title">Cybersecurity</h3>
-            <p class="cert-issuer">Tutedude</p>
-          </div>
-        </article>
-      </div>
-    </section>
+      targets.forEach(function (item) {
+        if (item.section.getBoundingClientRect().top - offset <= 0) {
+          current = item;
+        }
+      });
 
-    <aside class="editorial-quote-block reveal" aria-label="Editorial Quote">
-      <blockquote>
-        <p>&ldquo;Talk is cheap. Show me the code.&rdquo;</p>
-        <footer>&mdash; Linus Torvalds</footer>
-      </blockquote>
-    </aside>
-  </main>
+      // Near the page bottom, favour the last section (usually contact).
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 24) {
+        current = targets[targets.length - 1];
+      }
 
-  <footer id="contact" class="reveal">
-    <div class="footer-container">
-      <div class="footer-left">
-        <p class="section-kicker">Contact</p>
-        <h2>Let&rsquo;s Connect</h2>
-        <p class="footer-text">
-          Open to internships, collaboration, and meaningful tech opportunities.
-        </p>
-        <a class="footer-email" href="mailto:suhani.yadavmicro@gmail.com">suhani.yadavmicro@gmail.com</a>
-      </div>
+      targets.forEach(function (item) {
+        var active = item === current;
+        item.link.classList.toggle("active", active);
 
-      <div class="footer-right">
-        <ul class="contact-links">
-          <li>
-            <a href="mailto:suhani.yadavmicro@gmail.com" aria-label="Email Suhani Yadav">
-              <i class="fas fa-envelope" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/suhaniyadav-netizen" target="_blank" rel="noopener noreferrer"
-              aria-label="GitHub profile">
-              <i class="fab fa-github" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/suhaniyadavv" target="_blank" rel="noopener noreferrer"
-              aria-label="LinkedIn profile">
-              <i class="fab fa-linkedin" aria-hidden="true"></i>
-            </a>
-          </li>
-        </ul>
+        if (active) {
+          item.link.setAttribute("aria-current", "true");
+        } else {
+          item.link.removeAttribute("aria-current");
+        }
+      });
+    });
+  }
 
-        <p class="footer-copy">&copy; <span id="year"></span> Suhani Yadav</p>
-      </div>
-    </div>
-  </footer>
+  /* ---------- 6. Back to top ---------- */
+  function initBackToTop() {
+    var button = $("#backToTop");
+    if (!button) return;
 
-  <button id="backToTop" class="icon-button" type="button" aria-label="Back to top">
-    <i class="fas fa-arrow-up" aria-hidden="true"></i>
-  </button>
+    onScroll(function () {
+      button.classList.toggle("is-visible", window.scrollY > 320);
+    });
 
-  <script src="script.js" defer></script>
-</body>
+    button.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
+      });
 
-</html>
+      var logo = $(".logo");
+      if (logo) logo.focus({ preventScroll: true });
+    });
+  }
+
+  /* ---------- 7. Currently Grinding ---------- */
+  var GRIND_SOURCES = {
+    leetcode: function () {
+      return fetchJson("https://leetcode-api-faisalshohag.vercel.app/" + HANDLES.leetcode).then(function (data) {
+        if (!data || typeof data.totalSolved !== "number") return null;
+        return {
+          solved: formatCount(data.totalSolved),
+          rating: formatCount(data.contestRating),
+          rank: formatCount(data.ranking)
+        };
+      });
+    },
+
+
+    codeforces: function () {
+      return fetchJson("https://codeforces.com/api/user.info?handles=" + HANDLES.codeforces).then(function (data) {
+        var user = data && data.status === "OK" && data.result && data.result[0];
+        if (!user) return null;
+        return {
+          rating: formatCount(user.rating),
+          max: formatCount(user.maxRating),
+          rank: user.rank ? user.rank.replace(/\b\w/g, function (c) { return c.toUpperCase(); }) : null
+        };
+      });
+    },
+
+    tryhackme: function () {
+      return fetchJson("https://tryhackme-badge.vercel.app/api/user/" + HANDLES.tryhackme).then(function (data) {
+        if (!data) return null;
+        return {
+          rank: formatCount(data.userRank || data.rank),
+          rooms: formatCount(data.completedRooms || data.rooms),
+          streak: data.streak ? String(data.streak) : null
+        };
+      });
+    },
+
+    github: function () {
+      return Promise.all([
+        fetchJson("https://api.github.com/users/" + HANDLES.github),
+        fetchJson("https://api.github.com/users/" + HANDLES.github + "/repos?per_page=100&sort=updated")
+      ]).then(function (results) {
+        var user = results[0];
+        var repos = results[1];
+        if (!user) return null;
+
+        var stars = Array.isArray(repos)
+          ? repos.reduce(function (total, repo) {
+              return total + (repo.stargazers_count || 0);
+            }, 0)
+          : null;
+
+        return {
+          repos: formatCount(user.public_repos),
+          stars: stars === null ? null : formatCount(stars),
+          followers: formatCount(user.followers)
+        };
+      });
+    }
+  };
+
+  function renderGrindStats(card, stats) {
+    var filled = 0;
+
+    $all("[data-field]", card).forEach(function (node) {
+      var value = stats ? stats[node.getAttribute("data-field")] : null;
+
+      if (value) {
+        node.textContent = value;
+        filled += 1;
+      } else {
+        // Drop stats a platform does not expose rather than showing an empty slot.
+        var slot = node.closest(".grind-stat");
+        if (slot) slot.remove();
+      }
+    });
+
+    return filled;
+  }
+
+  function initGrinding() {
+    var strip = $("#grind-strip");
+    if (!strip) return;
+
+    var note = $("#grind-note");
+    var cards = $all(".grind-card", strip);
+    if (!cards.length) return;
+
+    cards.forEach(function (card) {
+      card.classList.add("is-loading");
+    });
+
+    var requests = cards.map(function (card) {
+      var key = card.getAttribute("data-grind");
+      var source = GRIND_SOURCES[key];
+      var request = source ? source() : Promise.resolve(null);
+
+      return request
+        .catch(function () {
+          return null;
+        })
+        .then(function (stats) {
+          card.classList.remove("is-loading");
+          var filled = renderGrindStats(card, stats);
+
+          if (!filled) {
+            // No public stat available: keep the card balanced with a quiet fallback.
+            var container = $("[data-stats]", card);
+            if (container) {
+              container.textContent = "View profile →";
+              container.className = "grind-fallback";
+            }
+          }
+
+
+          return filled > 0;
+        });
+    });
+
+    Promise.all(requests).then(function (results) {
+      if (!note) return;
+
+      var anyLive = results.some(Boolean);
+      note.textContent = anyLive
+        ? "Stats pulled live from each platform."
+        : "Live stats are unavailable right now — the profile links stay current.";
+    });
+  }
+
+  /* ---------- 8. Current year ---------- */
+  function initYear() {
+    var yearEl = $("#year");
+    if (yearEl) {
+      yearEl.textContent = String(new Date().getFullYear());
+    }
+  }
+
+  function init() {
+    initTheme();
+    initTypewriter();
+    initReveal();
+    initNav();
+    initBackToTop();
+    initGrinding();
+    initYear();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
