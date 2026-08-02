@@ -318,21 +318,26 @@ body > *:not(.ambient-bg):not(.skip-link) {
 
 /* ---------- 5. Navigation ---------- */
 .floating-nav {
-  position: sticky;
+  position: fixed !important;
   top: 0;
-  z-index: 1000;
+  left: 0;
+  right: 0;
   width: 100%;
-  border-bottom: 1px solid transparent;
-  background-color: color-mix(in oklab, var(--bg) 72%, transparent);
-  backdrop-filter: saturate(170%) blur(16px);
-  -webkit-backdrop-filter: saturate(170%) blur(16px);
+  z-index: 9999 !important;
+  border-bottom: 1px solid var(--border);
+  background-color: color-mix(in oklab, var(--bg) 85%, transparent);
+  backdrop-filter: saturate(170%) blur(20px);
+  -webkit-backdrop-filter: saturate(170%) blur(20px);
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
     background-color var(--dur) var(--ease);
 }
 
+main#home {
+  padding-top: calc(var(--nav-height) + 2rem);
+}
+
 .floating-nav.is-scrolled {
   border-bottom-color: var(--border);
-  background-color: color-mix(in oklab, var(--bg) 84%, transparent);
   box-shadow: 0 8px 24px -22px rgba(15, 23, 42, 0.4);
 }
 
@@ -485,44 +490,51 @@ body > *:not(.ambient-bg):not(.skip-link) {
   animation: blink 1.1s steps(1, end) infinite;
 }
 
-.hero-intro {
-  color: var(--text-muted);
-  font-size: 0.92rem;
-  max-width: 40ch;
-  margin: 0 auto 0.9rem;
-}
-
-.hero-meta {
+/* Updated Hero Meta Row */
+.hero-meta-row {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.3rem 0.85rem;
-  margin-bottom: 1.35rem;
+  gap: 1.5rem;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
   color: var(--text-muted);
-  font-size: 0.74rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.01em;
 }
 
-.hero-meta li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  white-space: nowrap;
-}
-
-.hero-meta li + li::before {
-  content: "•";
-  color: var(--border-strong);
-  margin-right: 0.55rem;
-}
-
-.hero-actions {
+.meta-item {
   display: flex;
-  justify-content: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.meta-item i {
+  color: var(--accent-strong);
+  font-size: 1rem;
+}
+
+.time-muted {
+  color: var(--text-muted);
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+  margin-left: 2px;
+}
+
+.resume-link-btn {
+  color: var(--accent-strong) !important;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background-color: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  transition: all var(--dur) var(--ease);
+}
+
+.resume-link-btn:hover {
+  background-color: rgba(var(--accent-rgb), 0.2);
+  transform: translateY(-2px);
 }
 
 .about-text p {
@@ -891,12 +903,11 @@ body.dark-mode .badge-live {
   letter-spacing: 0.01em;
 }
 
-/* ---------- 11. Hackathons (Compact Bento Box) ---------- */
 /* ---------- 11. Hackathons (Interactive Index) ---------- */
 .interactive-index {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Splits screen: list on left, image on right */
+  grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: start;
   margin-top: 2.5rem;
@@ -925,7 +936,7 @@ body.dark-mode .badge-live {
 
 .index-item:hover .index-label {
   color: var(--text);
-  padding-left: 1rem; /* Indents text slightly on hover */
+  padding-left: 1rem; 
 }
 
 .index-title {
@@ -973,7 +984,6 @@ body.dark-mode .badge-live {
   justify-content: center;
 }
 
-/* Pure CSS Magic: Show preview on hover */
 .index-item:hover .index-preview {
   opacity: 1;
   visibility: visible;
@@ -981,7 +991,6 @@ body.dark-mode .badge-live {
   z-index: 10;
 }
 
-/* Keep the first item visible by default when mouse is off the list */
 .index-list:not(:hover) .index-item:first-child .index-preview {
   opacity: 1;
   visibility: visible;
@@ -992,7 +1001,6 @@ body.dark-mode .badge-live {
   color: var(--text);
 }
 
-/* Preview Card Styling */
 .preview-card {
   width: 100%;
   max-width: 360px;
@@ -1257,10 +1265,10 @@ footer {
 .reveal .highlight-card,
 .reveal .project-card,
 .reveal .exp-item,
-.reveal .poster-card,
 .reveal .skills-row,
 .reveal .grind-card,
-.reveal .cert-chip {
+.reveal .cert-chip,
+.reveal .index-item {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 520ms var(--ease), transform 520ms var(--ease), box-shadow var(--dur) var(--ease),
@@ -1271,10 +1279,10 @@ footer {
 .reveal.is-visible .highlight-card,
 .reveal.is-visible .project-card,
 .reveal.is-visible .exp-item,
-.reveal.is-visible .poster-card,
 .reveal.is-visible .skills-row,
 .reveal.is-visible .grind-card,
-.reveal.is-visible .cert-chip {
+.reveal.is-visible .cert-chip,
+.reveal.is-visible .index-item {
   opacity: 1;
   transform: none;
 }
@@ -1352,6 +1360,50 @@ footer {
   .first-section {
     padding-top: 3rem;
   }
+  
+  /* Mobile adaptation for Interactive Index Hackathons */
+  .interactive-index {
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: auto;
+  }
+  .index-label {
+    padding: 1.2rem 0;
+  }
+  .index-line {
+    display: none; 
+  }
+  .index-date {
+    margin-left: auto;
+  }
+  .index-preview {
+    position: relative;
+    width: 100%;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+    transition: height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+    padding: 0;
+    overflow: hidden;
+  }
+  .index-list:not(:hover) .index-item:first-child .index-preview {
+    height: 0;
+    opacity: 0;
+    padding: 0;
+    visibility: hidden;
+  }
+  .index-item:hover .index-preview,
+  .index-item:active .index-preview {
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 0 1.5rem 0;
+  }
+  .preview-card {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1377,12 +1429,8 @@ footer {
     height: 158px;
   }
 
-  .hero-meta {
-    gap: 0.25rem 0.6rem;
-  }
-
-  .hero-meta li + li::before {
-    content: none;
+  .hero-meta-row {
+    gap: 0.8rem 1rem;
   }
 
   .about-highlights {
@@ -1394,11 +1442,6 @@ footer {
     gap: 0.45rem;
   }
 
-  .hero-actions .btn,
-  .project-links .btn {
-    flex: 1 1 auto;
-  }
-
   .grind-strip {
     grid-template-columns: 1fr;
   }
@@ -1408,22 +1451,6 @@ footer {
     align-items: center;
     justify-content: space-between;
     gap: 0.85rem;
-  }
-  
-  /* Reset poster wall for mobile to standard vertical stack, but keep cards short */
-  .poster-wall {
-    grid-template-columns: 1fr;
-    margin-top: 1.2rem;
-  }
-
-  .poster-card {
-    padding: 1rem;
-  }
-
-  .poster-image-wrap {
-    width: 50px;
-    height: 50px;
-    margin-right: 1rem;
   }
 
   .footer-container {
