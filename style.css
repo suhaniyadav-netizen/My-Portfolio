@@ -218,7 +218,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
 
 .section-subtitle {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   max-width: 62ch;
 }
 
@@ -428,7 +428,8 @@ body > *:not(.ambient-bg):not(.skip-link) {
   display: grid;
   place-items: center;
   background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.75), rgba(90, 174, 245, 0.28));
-  box-shadow: 0 14px 34px -22px rgba(var(--accent-rgb), 0.7);
+  /* Increased glow heavily here */
+  box-shadow: 0 0 45px 12px rgba(var(--accent-rgb), 0.55);
 }
 
 .profile-ring::before {
@@ -442,7 +443,8 @@ body > *:not(.ambient-bg):not(.skip-link) {
 }
 
 .enhanced-glow {
-  box-shadow: 0 0 40px 12px rgba(var(--accent-rgb), 0.5);
+  /* Class kept for backwards compatibility, but the heavy glow is now directly on .profile-ring */
+  box-shadow: 0 0 45px 12px rgba(var(--accent-rgb), 0.55);
   border-radius: 50%;
 }
 
@@ -534,6 +536,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   color: var(--text-muted);
   margin-bottom: 0.95rem;
   max-width: 58ch;
+  font-size: 0.85rem;
 }
 
 .about-text .section-kicker {
@@ -553,7 +556,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
 }
 
@@ -582,7 +585,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
 
 .skills-left {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--accent-strong);
 }
 
@@ -593,7 +596,7 @@ body > *:not(.ambient-bg):not(.skip-link) {
 }
 
 .skills-right span {
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   font-weight: 500;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-pill);
@@ -673,7 +676,7 @@ body.dark-mode .badge-live {
 
 .project-desc {
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.78rem;
   line-height: 1.62;
   margin-bottom: 0.9rem;
 }
@@ -747,7 +750,7 @@ body.dark-mode .badge-live {
   display: grid;
   gap: 0.4rem;
   color: var(--text-muted);
-  font-size: 0.855rem;
+  font-size: 0.78rem;
   line-height: 1.58;
 }
 
@@ -776,6 +779,55 @@ body.dark-mode .badge-live {
 
 .grind-card {
   border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Option 3: Background Watermarks */
+.grind-card::after {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-size: 4.5rem;
+  opacity: 0.03;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.grind-card:hover::after {
+  transform: scale(1.1) rotate(-5deg);
+  opacity: 0.06;
+}
+
+.grind-card[data-grind="leetcode"]::after { content: "\f121"; }
+.grind-card[data-grind="codeforces"]::after { content: "\f201"; }
+.grind-card[data-grind="tryhackme"]::after { content: "\f3ed"; }
+.grind-card[data-grind="github"]::after { content: "\f09b"; font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+
+/* Option 2: Brand-Tinted Illuminations */
+.grind-card[data-grind="leetcode"]:hover {
+  border-color: rgba(255, 161, 22, 0.5); 
+  box-shadow: 0 8px 24px -12px rgba(255, 161, 22, 0.4);
+}
+
+.grind-card[data-grind="codeforces"]:hover {
+  border-color: rgba(25, 139, 204, 0.5); 
+  box-shadow: 0 8px 24px -12px rgba(25, 139, 204, 0.4);
+}
+
+.grind-card[data-grind="tryhackme"]:hover {
+  border-color: rgba(171, 248, 79, 0.5); 
+  box-shadow: 0 8px 24px -12px rgba(171, 248, 79, 0.4);
+}
+
+.grind-card[data-grind="github"]:hover {
+  border-color: rgba(255, 255, 255, 0.4); 
+  box-shadow: 0 8px 24px -12px rgba(255, 255, 255, 0.2);
 }
 
 .grind-link {
@@ -783,6 +835,8 @@ body.dark-mode .badge-live {
   flex-direction: column;
   gap: 0.6rem;
   padding: 0.8rem 0.9rem;
+  position: relative;
+  z-index: 1;
 }
 
 .grind-head {
@@ -942,7 +996,7 @@ body.dark-mode .badge-live {
 
 .poster-desc {
   color: #5b6472;
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   line-height: 1.55;
   max-width: 24ch;
   margin-inline: auto;
@@ -963,7 +1017,7 @@ body.dark-mode .badge-live {
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   background-color: var(--surface);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease);
 }
@@ -985,7 +1039,7 @@ body.dark-mode .badge-live {
 
 .cert-issuer {
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 
 .cert-issuer::before {
@@ -995,7 +1049,7 @@ body.dark-mode .badge-live {
 .fun-fact {
   margin-top: 1.25rem;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .quote-block {
@@ -1039,7 +1093,7 @@ footer {
 
 .footer-text {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   max-width: 46ch;
   margin-bottom: 0.8rem;
 }
