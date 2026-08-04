@@ -167,6 +167,15 @@ body > *:not(.ambient-bg):not(.skip-link) {
   margin-bottom: 0.6rem;
 }
 
+.section-quote {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
 .section-heading h2, .about-text h2, .footer-left h2 {
   font-size: clamp(1.15rem, 2vw, 1.4rem);
   margin-bottom: 0.7rem;
@@ -523,7 +532,7 @@ main#home { padding-top: calc(var(--nav-height) + 2rem); }
   transform: translateY(-1px);
 }
 
-/* ---------- Projects & Integrated Quote ---------- */
+/* ---------- Projects ---------- */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -605,33 +614,6 @@ body.dark-mode .badge-live { color: #4fd39c; }
   align-items: center;
   gap: 0.55rem;
   flex-wrap: wrap;
-}
-
-/* Quote Nested inside Projects Section */
-.editorial-quote-block.inline-quote {
-  margin-top: 2.5rem;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  background: var(--surface);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-lg);
-}
-
-.editorial-quote-block blockquote p {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  line-height: 1.35;
-  color: var(--text);
-}
-
-.editorial-quote-block blockquote footer {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-strong);
-  border: none;
 }
 
 /* ---------- Experience ---------- */
@@ -976,7 +958,7 @@ body:not(.dark-mode) .json-link:active {
 }
 
 
-/* ---------- Footer & Savvy Fun Facts Card ---------- */
+/* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--border); }
 
 .footer-container {
@@ -997,45 +979,13 @@ footer { border-top: 1px solid var(--border); }
   margin-bottom: 0.8rem;
 }
 
-.footer-fun-facts {
-  margin: 1.25rem 0 1.5rem;
-  padding: 1.1rem 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  max-width: 480px;
-}
-
-.fun-facts-header {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--accent-strong);
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.fun-facts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.fun-facts-list li {
-  font-size: 0.78rem;
+.footer-quote {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.fact-tag {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-right: 0.2rem;
+  font-style: italic;
+  margin: 1rem 0;
+  letter-spacing: 0.02em;
 }
 
 .footer-email {
@@ -1045,6 +995,7 @@ footer { border-top: 1px solid var(--border); }
   border-bottom: 1px solid rgba(var(--accent-rgb), 0.35);
   padding-bottom: 1px;
   transition: border-color var(--dur) var(--ease);
+  display: inline-block;
 }
 
 .footer-email:hover { border-bottom-color: var(--accent-strong); }
