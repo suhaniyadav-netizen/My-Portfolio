@@ -719,7 +719,11 @@ body.dark-mode .badge-live { color: #4fd39c; }
 }
 
 .grind-head { display: flex; align-items: center; gap: 0.45rem; }
+<<<<<<< HEAD
 .grind-head i { color: var(--accent-strong); font-size: 0.85rem; transition: color 0.3s ease; }
+=======
+.grind-head i { color: var(--accent-strong); font-size: 0.85rem; }
+>>>>>>> 6474deb85cf55cd405c59f556e3d49287f396fd2
 .grind-name { font-size: 0.8rem; font-weight: 600; letter-spacing: -0.004em; }
 
 .grind-stats { display: flex; gap: 0.85rem; }
@@ -734,6 +738,7 @@ body.dark-mode .badge-live { color: #4fd39c; }
   letter-spacing: 0.01em;
 }
 
+<<<<<<< HEAD
 .grind-card[data-grind="leetcode"]:hover {
   border-color: rgba(255, 161, 22, 0.5) !important;
   box-shadow: 0 8px 24px -12px rgba(255, 161, 22, 0.6), 0 0 0 1px rgba(255, 161, 22, 0.2) !important;
@@ -763,6 +768,8 @@ body:not(.dark-mode) .grind-card[data-grind="github"]:hover {
 .grind-card[data-grind="github"]:hover .grind-head i { color: #ffffff; }
 body:not(.dark-mode) .grind-card[data-grind="github"]:hover .grind-head i { color: #16202e; }
 
+=======
+>>>>>>> 6474deb85cf55cd405c59f556e3d49287f396fd2
 /* ---------- Hackathons: IDE File Explorer ---------- */
 .ide-container {
   display: grid;
@@ -788,6 +795,7 @@ body:not(.dark-mode) .grind-card[data-grind="github"]:hover .grind-head i { colo
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
 }
 
 body.dark-mode .ide-sidebar {
@@ -933,6 +941,109 @@ body:not(.dark-mode) .ide-cert-link:hover {
   background-color: rgba(217, 119, 6, 0.1);
 }
 
+=======
+}
+
+body.dark-mode .ide-sidebar {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ide-sidebar-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 1rem 1rem 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.ide-file-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.ide-file {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.45rem 1rem 0.45rem 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.ide-file i { font-size: 0.9em; }
+
+.ide-file:hover {
+  background-color: rgba(var(--accent-rgb), 0.08);
+  color: var(--text);
+}
+
+.ide-file.active {
+  background-color: rgba(var(--accent-rgb), 0.15);
+  color: var(--text);
+  border-left: 2px solid var(--accent-strong);
+  padding-left: calc(1.8rem - 2px);
+  font-weight: 500;
+}
+
+.ide-editor {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+}
+
+.ide-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.dark-mode .ide-tabs { background-color: rgba(0, 0, 0, 0.2); }
+
+.ide-tab {
+  padding: 0.6rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ide-tab.active {
+  background-color: var(--surface);
+  color: var(--text);
+  border-top: 2px solid var(--accent-strong);
+  padding-top: calc(0.6rem - 2px);
+}
+
+.ide-content-area {
+  padding: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text);
+  overflow-y: auto;
+}
+
+/* IDE Code Colors */
+.ide-comment { color: #6b7280; font-style: italic; }
+.ide-keyword { color: #c678dd; font-weight: 600; }
+.ide-string { color: #98c379; }
+.ide-success { color: #4fd39c; font-weight: 600; }
+
+body:not(.dark-mode) .ide-keyword { color: #a626a4; }
+body:not(.dark-mode) .ide-string { color: #50a14f; }
+body:not(.dark-mode) .ide-success { color: #1f9d6b; }
+
+
+>>>>>>> 6474deb85cf55cd405c59f556e3d49287f396fd2
 /* ---------- Certifications: JSON Data Block ---------- */
 .json-container {
   background-color: #1e1e1e; 
