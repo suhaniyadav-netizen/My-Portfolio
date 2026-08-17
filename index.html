@@ -112,9 +112,9 @@
             <span class="meta-item">
               <i class="fas fa-location-dot" aria-hidden="true"></i> Gurgaon, India
             </span>
-            <span class="meta-item" id="ist-time">
-              <i class="far fa-clock" aria-hidden="true"></i> 04:16 PM <span class="time-muted">// IST</span>
-            </span>
+            <span class="meta-item">
+  <i class="far fa-clock" aria-hidden="true"></i> <span id="ist-time">04:16 PM</span> <span class="time-muted">// IST</span>
+</span>
             <a href="./assets/SY_Resume.pdf" target="_blank" rel="noopener noreferrer" class="meta-item resume-link-btn" aria-label="Open Resume PDF">
               <i class="fas fa-file-pdf" aria-hidden="true"></i> Resume
             </a>
@@ -542,6 +542,27 @@
         contentArea.innerHTML = selectedData.content;
       });
     });
+// --- Live IST Clock ---
+    function updateTime() {
+      const timeElement = document.getElementById('ist-time');
+      if (!timeElement) return;
+
+      // Get current time formatted for India (IST)
+      const now = new Date();
+      const options = { 
+        timeZone: 'Asia/Kolkata', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+      };
+      
+      const timeString = now.toLocaleTimeString('en-US', options);
+      timeElement.textContent = timeString;
+    }
+
+    updateTime(); // Run immediately on load
+    setInterval(updateTime, 1000); // Update every second to ensure accuracy
+
   </script>
 </body>
 
