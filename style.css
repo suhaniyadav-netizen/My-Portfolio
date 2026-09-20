@@ -54,19 +54,18 @@ body.dark-mode {
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  background-color: var(--bg);
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: transparent; /* Changed to allow Three.js canvas to show */
+  background-color: var(--bg);
   color: var(--text);
   font-size: 0.9375rem;
   line-height: 1.68;
   letter-spacing: -0.004em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: color var(--dur) var(--ease);
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 img { max-width: 100%; display: block; }
@@ -107,12 +106,37 @@ button { font: inherit; color: inherit; }
 
 .skip-link:focus-visible { transform: translate(-50%, 0); }
 
-/* ---------- Ambient Background Wrapper (For Three.js) ---------- */
-.ambient-bg-wrapper {
+/* ---------- Ambient Background ---------- */
+.ambient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
+  pointer-events: none;
   background-color: var(--bg);
+  background-image:
+    radial-gradient(46rem 28rem at 8% -8%, rgba(var(--accent-rgb), 0.16), transparent 64%),
+    radial-gradient(38rem 24rem at 100% 6%, rgba(90, 174, 245, 0.11), transparent 66%),
+    radial-gradient(42rem 26rem at 22% 62%, rgba(var(--accent-rgb), 0.07), transparent 68%),
+    radial-gradient(46rem 28rem at 50% 106%, rgba(var(--accent-rgb), 0.1), transparent 70%);
+}
+
+.ambient-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.6) 48%, rgba(255, 255, 255, 0.15) 100%);
+}
+
+body.dark-mode .ambient-bg {
+  background-image:
+    radial-gradient(48rem 30rem at 6% -10%, rgba(var(--accent-rgb), 0.12), transparent 64%),
+    radial-gradient(38rem 24rem at 100% 4%, rgba(90, 174, 245, 0.09), transparent 68%),
+    radial-gradient(42rem 26rem at 20% 60%, rgba(var(--accent-rgb), 0.05), transparent 70%),
+    radial-gradient(46rem 30rem at 50% 108%, rgba(var(--accent-rgb), 0.07), transparent 72%);
+}
+
+body.dark-mode .ambient-bg::after {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.66) 48%, rgba(15, 23, 42, 0.25) 100%);
 }
 
 body > *:not(.ambient-bg-wrapper):not(.skip-link) {
@@ -218,7 +242,7 @@ body > *:not(.ambient-bg-wrapper):not(.skip-link) {
   height: 34px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-strong);
-  background-color: var(--surface);
+  background-color: transparent;
   cursor: pointer;
   transition: all var(--dur) var(--ease);
 }
@@ -583,32 +607,14 @@ body.dark-mode .badge-live { color: #4fd39c; }
   flex-wrap: wrap;
 }
 
-/* Quote Nested inside Projects Section */
-.editorial-quote-block.inline-quote {
-  margin-top: 2.5rem;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  background: var(--surface);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-lg);
-}
-
-.editorial-quote-block blockquote p {
+/* Clean, bottom-aligned quote */
+.bottom-quote {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  line-height: 1.35;
-  color: var(--text);
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  margin-top: 1.5rem;
   font-style: italic;
-}
-
-.editorial-quote-block blockquote footer {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-strong);
-  border: none;
+  letter-spacing: 0.02em;
 }
 
 /* ---------- Experience ---------- */
@@ -1025,7 +1031,6 @@ body:not(.dark-mode) .json-link:active {
   color: #b45309;
 }
 
-
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--border); }
 
@@ -1038,22 +1043,6 @@ footer { border-top: 1px solid var(--border); }
   align-items: flex-end;
   gap: 2.25rem;
   flex-wrap: wrap;
-}
-
-.footer-text {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  max-width: 46ch;
-  margin-bottom: 0.8rem;
-}
-
-.footer-quote {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin: 1rem 0;
-  letter-spacing: 0.02em;
 }
 
 .footer-email {
